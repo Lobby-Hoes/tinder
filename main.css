@@ -1,0 +1,98 @@
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
+@import "https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css";
+
+.swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    height: 100% !important;
+    top: 0%;
+}
+
+.profile {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.description {
+
+    top: 85%;
+    left: 5%;
+    width: 100%;
+    height: 10%;
+}
+
+.dtext {
+    width: 100%;
+}
+
+.shade {
+
+    width: 100%;
+    height: 15%;
+    bottom: 18px;
+    left: 0%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    box-shadow: 0px -10px 5px rgba(0, 0, 0, 0.5);
+}
+
+.profileimg {
+    height: auto;
+    width: 100%;
+}
+
+.text {
+    position: absolute;
+    left: 5%;
+    top: 85%;
+
+}
+
+.slider {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper {
+    height: 90%;
+    width: 40%;
+}
+
+@media only screen and (max-width: 768px) {
+    .swiper {
+        height: 80%;
+        width: 100%;
+    }
+}
+
+html,
+body {
+    position: relative;
+    height: 100%;
+}
+
+body {
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
+
+.invis {
+    opacity: 0;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
