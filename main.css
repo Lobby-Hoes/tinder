@@ -54,6 +54,14 @@
     height: 100%;
 }
 
+.dislike-button {
+}
+
+.button-group {
+    position: absolute;
+    left: 60%;
+}
+
 .swiper {
     height: auto !important;
     width: 40%;
@@ -69,6 +77,14 @@
         width: 90%;
         height: 10%;
         margin-left: 5%;
+    }
+
+    .dislike-button {
+        font-size: .75rem;;
+    }
+
+    .like-button {
+        font-size: .75rem;
     }
 }
 

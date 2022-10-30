@@ -21,6 +21,9 @@ function allignElements() {
 
     var textDiv = document.getElementsByClassName('text')[0];
     textDiv.style.top = (document.getElementById('image').clientHeight - shadeDiv.clientHeight) + (shadeDiv.clientHeight / 8) + 'px';
+
+    var buttons = document.getElementsByClassName('button-group')[0];
+    buttons.style.top = (document.getElementById('image').clientHeight - shadeDiv.clientHeight) + (shadeDiv.clientHeight / 4) + 'px';
 }
 
 function loadSwiper() {
