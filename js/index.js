@@ -1,5 +1,6 @@
 let img;
 let swiper;
+let animation;
 
 function init() {
     loadSwiper();
@@ -13,6 +14,25 @@ function init() {
     }
 
     window.addEventListener('resize', allignElements);
+
+    buttonClickListener();
+
+}
+
+function buttonClickListener() {
+    document.getElementById('like').addEventListener('click', function() {
+        animation = true;
+        document.getElementById('slideMiddle').style.overflow = 'hidden';
+        document.getElementById('slideMiddle').style.animation = 'slideRight 0.5s';
+        swiper.slidePrev();
+    });
+
+    document.getElementById('dislike').addEventListener('click', function() {
+        animation = true;
+        document.getElementById('slideMiddle').style.overflow = 'hidden';
+        document.getElementById('slideMiddle').style.animation = 'slideLeft 0.5s';
+        swiper.slideNext();
+    });
 }
 
 function allignElements() {
@@ -50,11 +70,22 @@ function onSwipe() {
     } else if (swiper.activeIndex == 0) {
         console.log('right');
     }
+
+    if (animation) {
+        setTimeout(loading, 450);
+        animation = false;
+    } else {
+        loading();
+    }
+}
+
+function loading() {
     document.getElementById('slideMiddle').style.opacity = 0;
 
     //Loading and Reset
     var loadingDiv = document.createElement('div');
     loadingDiv.style.cssText = 'border: 1px solid #f3f3f3;border-top: 1px solid #3498db;border-radius: 50%;width: 60px;height: 60px;margin: auto;animation: spin 2s linear infinite;margin-top: 10%;';
+    loadingDiv.id = 'loadingDiv';
     document.getElementById('slider').insertBefore(loadingDiv, document.getElementById('nodeBefore'));
 
     window.scrollTo(0, 0);

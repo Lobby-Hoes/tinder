@@ -113,3 +113,26 @@ body {
         transform: rotate(360deg);
     }
 }
+
+@keyframes slideRight {
+    0% {
+        left: 0%;
+        transform: rotate(0deg);
+    }
+    100% {
+        left: 100%;
+        transform: rotate(5deg);
+    }
+}
+
+@keyframes slideLeft {
+    0% {
+        left: 0%;
+        transform: rotate(0deg);
+    }
+    100% {
+        left: -300%;
+        transform: rotate(-5deg);
+    }
+}
+
