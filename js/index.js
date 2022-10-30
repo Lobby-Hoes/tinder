@@ -7,14 +7,20 @@ function init() {
     img = document.getElementById('image');
 
     if (img.complete) {
-        imgLoaded();
+        allignElements();
     } else {
-        img.addEventListener('load', imgLoaded);
+        img.addEventListener('load', allignElements);
     }
+
+    window.addEventListener('resize', allignElements);
 }
 
-function imgLoaded() {
-    console.log(document.getElementById('image').clientHeight);
+function allignElements() {
+    var shadeDiv = document.getElementsByClassName('shade')[0];
+    shadeDiv.style.top = document.getElementById('image').clientHeight - shadeDiv.clientHeight + 'px';
+
+    var textDiv = document.getElementsByClassName('text')[0];
+    textDiv.style.top = (document.getElementById('image').clientHeight - shadeDiv.clientHeight) + (shadeDiv.clientHeight / 8) + 'px';
 }
 
 function loadSwiper() {
