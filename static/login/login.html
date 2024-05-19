@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="de" class="theme-light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="David Eliezer Kesselmann">
+    <title>🔥 Lobbyhoe Tinder</title>
+
+    <!-- Imports -->
+    <link rel="stylesheet" href="/libraries/bulma.min.css">
+    <link rel="stylesheet" href="/login/style.css">
+    <script defer src="https://use.fontawesome.com/releases/v6.5.2/js/all.js"></script>
+
+    <script defer src="/login/client.js"></script>
+</head>
+<body>
+
+<div class="title is-1 has-text-centered mt-6 has-text-light is-uppercase is-family-hobbylos">🔥 Lobbyhoe Tinder</div>
+
+<div class="box">
+    <div class="field">
+        <label for="username" class="label">Username</label>
+        <div class="control">
+            <input id="username" type="text" class="input" placeholder="Username" required>
+        </div>
+    </div>
+    <div class="field">
+        <label for="password" class="label">Passwort</label>
+        <div class="control">
+            <input id="password" type="password" class="input" placeholder="Passwort" required>
+        </div>
+    </div>
+
+    <div class="field is-grouped">
+        <div class="control">
+            <button class="button is-link" onclick="login()">Login</button>
+        </div>
+        <div class="control">
+            <button class="button is-link is-light" onclick="register()">Registrieren</button>
+        </div>
+    </div>
+</div>
+
+<script src="/libraries/hammer.min.js"></script>
+
+</body>
+</html>

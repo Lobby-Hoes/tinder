@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="de" class="theme-light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="author" content="David Eliezer Kesselmann">
+    <title>🔥 Lobbyhoe Tinder</title>
+
+    <!-- Imports -->
+    <link rel="stylesheet" href="/libraries/bulma.min.css">
+    <link rel="stylesheet" href="/register/style.css">
+    <script defer src="https://use.fontawesome.com/releases/v6.5.2/js/all.js"></script>
+
+    <script defer src="/register/client.js"></script>
+</head>
+<body>
+
+<div class="title is-1 has-text-centered mt-6 has-text-light is-uppercase is-family-hobbylos">🔥 Lobbyhoe Tinder</div>
+
+<div class="box">
+    <h1 class="title has-text-centered has-text-weight-semibold">Registrieren</h1>
+    <div class="field stage-1">
+        <label for="username" class="label">Username</label>
+        <div class="control">
+            <input id="username" type="text" autocomplete="username" class="input" placeholder="Username">
+        </div>
+    </div>
+    <div class="field stage-1">
+        <label for="password" class="label">Passwort</label>
+        <div class="control">
+            <input id="password" type="password" autocomplete="new-password" class="input" placeholder="Passwort">
+        </div>
+    </div>
+
+    <div class="field stage-1">
+        <label for="password-repeat" class="label">Passwort wiederholen</label>
+        <div class="control">
+            <input id="password-repeat" type="password" autocomplete="new-password" class="input"
+                   placeholder="Passwort">
+        </div>
+    </div>
+
+    <div class="field stage-2 is-hidden">
+        <label for="name" class="label">Wie willst du gennant werden?</label>
+        <div class="control">
+            <input id="name" type="text" class="input" autocomplete="given-name" placeholder="Vorname">
+        </div>
+    </div>
+    <div class="field stage-2 is-hidden">
+        <label for="birthday" class="label">Wann ist dein Geburtstag?</label>
+        <div class="control">
+            <input id="birthday" type="date" autocomplete="bday" class="input">
+        </div>
+    </div>
+    <div class="field stage-2 is-hidden">
+        <label for="city" class="label">In welcher Stadt lebst du?</label>
+        <div class="control">
+            <input id="city" type="text" autocomplete="address-level2" class="input">
+        </div>
+    </div>
+    <div class="field stage-2 is-hidden">
+        <label for="job" class="label">Was machst du Beruflich?</label>
+        <div class="control">
+            <input id="job" type="text" autocomplete="organization-title" class="input">
+        </div>
+    </div>
+    <div class="field stage-3 is-hidden">
+        <label for="sex" class="label">Mit welchem Geschlecht identifizierst du dich?</label>
+        <div class="control">
+            <input id="sex" type="text" autocomplete="sex" class="input">
+        </div>
+    </div>
+    <div class="field stage-3 is-hidden">
+        <label for="pronouns" class="label">Welche Pronomen verwendest du?*</label>
+        <div class="control">
+            <input id="pronouns" type="text" class="input">
+        </div>
+    </div>
+
+    <div class="field stage-4 is-hidden">
+        <label for="sexuality" class="label">Was ist deine Sexuelle Orientierung?</label>
+        <div class="control">
+            <input id="sexuality" type="text" class="input">
+        </div>
+    </div>
+
+    <div class="field stage-4 is-hidden">
+        <label for="romantic" class="label">Was ist deine Romantische Orientierung?</label>
+        <div class="control">
+            <input id="romantic" type="text" class="input">
+        </div>
+    </div>
+
+    <div class="field is-grouped">
+        <div class="control is-hidden previous-stage">
+            <button class="button is-link is-light" onclick="previousStage()">Zurück</button>
+        </div>
+        <div class="control">
+            <button class="button is-link" onclick="nextStage()">Weiter</button>
+        </div>
+    </div>
+</div>
+
+<script src="/libraries/hammer.min.js"></script>
+
+</body>
+</html>
