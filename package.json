@@ -1,0 +1,23 @@
+{
+  "name": "tinder",
+  "version": "1.0.0",
+  "description": "🔥 Die Vernetzungs Plattform für erhabene Lobbyhoes!",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lobby-Hoes/tinder.git"
+  },
+  "author": "David Eliezer Kesselmann",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lobby-Hoes/tinder/issues"
+  },
+  "homepage": "https://github.com/Lobby-Hoes/tinder#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

@@ -1,0 +1,20 @@
+@font-face { font-family: Hobbylos; src: url('/resources/AsketCondensed.otf'); }
+
+.card {
+    width: 30%;
+    margin:auto;
+}
+
+.is-family-hobbylos {
+    font-family: Hobbylos, sans-serif;
+}
+
+html {
+    background-image: url("/resources/Kachel.png");
+}
+
+@media screen and (max-width: 959px) {
+    .card {
+        width: 80%;
+    }
+}
