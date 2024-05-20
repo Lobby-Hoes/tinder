@@ -24,6 +24,8 @@ function setStage(oldStage, newStage) {
         xhr.onreadystatechange = function() {
             if(xhr.readyState === 4) {
                 if(xhr.status === 200) {
+                    //Cookies.set('session', xhr.responseText, {expires: 1});
+                    console.log('Cookies set');
                     window.location.href = '/';
                 } else {
                     console.error(xhr.responseText);

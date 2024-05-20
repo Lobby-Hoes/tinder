@@ -1,16 +1,17 @@
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
-const { MongoClient } = require('mongodb');
+const {MongoClient} = require('mongodb');
 const fs = require('fs');
+const {createHash} = require('crypto');
 
 var client;
 
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 app.use(express.static('static'));
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 
 app.get('/login', (req, res) => {
@@ -23,12 +24,35 @@ app.get('/register', (req, res) => {
 
 app.post('/api/register', (req, res) => {
     var user = req.body;
+    user.password = createHash('sha256').update(user.username + user.password).digest('hex');
     getCollection('users').insertOne(user);
+
+    var session = createSession(user);
+
+    res.cookie('session', session, {expires: new Date(Date.now() + 1000 * 60 * 60 * 24), path: '/'});
+    res.sendStatus(200);
 });
 
-app.use(function (req, res, next) {
+app.post('/api/login', async (req, res) => {
+    var user = req.body;
+    user.password = createHash('sha256').update(user.username + user.password).digest('hex');
+
+    var dbUser = await getCollection('users').findOne(user);
+    if (!dbUser || dbUser.password !== user.password) {
+        res.sendStatus(401);
+        return;
+    }
+
+    var session = createSession(user);
+    res.cookie('session', session, {expires: new Date(Date.now() + 1000 * 60 * 60 * 24), path: '/'});
+    res.sendStatus(200);
+});
+
+app.use(async function (req, res, next) {
     const user = req.cookies.session;
-    if(!user) {
+    const session = await checkSession(user);
+    if (!user || !session) {
+        res.clearCookie('session');
         res.redirect('/login');
         return;
     }
@@ -37,6 +61,12 @@ app.use(function (req, res, next) {
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/static/index/index.html');
+});
+
+app.get('/api/new-profile', async (req, res) => {
+    var user = await checkSession(req.cookies.session);
+    var profile = await getCollection('profiles').findOne({user: {$ne: user}});
+    res.json(profile);
 });
 
 app.listen(port, () => {
@@ -56,4 +86,27 @@ app.listen(port, () => {
 
 function getCollection(name) {
     return client.db('tinder').collection(name);
+}
+
+function createSession(user) {
+
+    const token = createHash('sha256').update(user.username + Date.now()).digest('hex')
+
+    getCollection('sessions').insertOne({
+        user: user.username,
+        token: token,
+        expires: Date.now() + 1000 * 60 * 60 * 24
+    });
+
+    return token;
+
+}
+
+async function checkSession(token) {
+    var session = await getCollection('sessions').findOne({token: token});
+    if (!session || session.expires < Date.now()) {
+        return null;
+    }
+
+    return session.user;
 }
