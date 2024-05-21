@@ -5,9 +5,11 @@ const {MongoClient} = require('mongodb');
 const fs = require('fs');
 const {createHash} = require('crypto');
 
-var client;
+//Constants
+const PORT = process.env.PORT || 4000;
+const MONGO_URI = process.env.MONGO_URI;
 
-const port = process.env.PORT || 4000;
+let client;
 
 app.use(express.static('static'));
 app.use(express.json());
@@ -69,12 +71,13 @@ app.get('/api/new-profile', async (req, res) => {
     res.json(profile);
 });
 
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${PORT}`);
 
-    var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
-
-    client = new MongoClient(config.mongoUri);
+    if(!MONGO_URI) {
+        throw new Error('MONGO_URI environment variable is not defined');
+    }
+    client = new MongoClient(MONGO_URI);
     client.connect()
         .then(() => {
             console.log('Connected to MongoDB');
