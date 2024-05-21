@@ -21,5 +21,8 @@
     "cookie-parser": "^1.4.6",
     "express": "^4.19.2",
     "mongodb": "^6.6.2"
+  },
+  "engines": {
+    "node": ">=16.20.1"
   }
 }
