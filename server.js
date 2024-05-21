@@ -26,7 +26,14 @@ app.get('/register', (req, res) => {
 
 app.post('/api/register', (req, res) => {
     var user = req.body;
+
     user.password = createHash('sha256').update(user.username + user.password).digest('hex');
+
+    //Insert additional fields
+    user.creationDate = new Date();
+    user.likedProfiles = [];
+    user.dislikedProfiles = [];
+
     getCollection('users').insertOne(user);
 
     var session = createSession(user);
@@ -66,15 +73,37 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/new-profile', async (req, res) => {
-    var user = await checkSession(req.cookies.session);
-    var profile = await getCollection('profiles').findOne({user: {$ne: user}});
-    res.json(profile);
+    var session = await checkSession(req.cookies.session);
+    var user = await getProfile(session);
+
+    const likedProfiles = user.likedProfiles;
+    const dislikedProfiles = user.dislikedProfiles;
+    const seenProfiles = likedProfiles.concat(dislikedProfiles);
+
+    var profile = await getCollection('users').aggregate([{
+        $match: {
+            username: {
+                $ne: user.username,
+                $nin: seenProfiles
+            }
+        }
+    }, {
+        $sample: {size: 1}
+    }]).toArray();
+
+    res.send(profile[0]);
+});
+
+app.get('/api/user', async (req, res) => {
+    var session = await checkSession(req.cookies.session);
+    var user = getProfile(session);
+    res.send(user);
 });
 
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 
-    if(!MONGO_URI) {
+    if (!MONGO_URI) {
         throw new Error('MONGO_URI environment variable is not defined');
     }
     client = new MongoClient(MONGO_URI);
@@ -112,4 +141,8 @@ async function checkSession(token) {
     }
 
     return session.user;
+}
+
+async function getProfile(session) {
+    return await getCollection('users').findOne({username: session});
 }

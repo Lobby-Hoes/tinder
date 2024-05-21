@@ -3,6 +3,8 @@
 .card {
     width: 30%;
     margin:auto;
+    position: absolute;
+    left: 35%;
 }
 
 .is-family-hobbylos {
@@ -24,5 +26,6 @@ html {
 @media screen and (max-width: 959px) {
     .card {
         width: 90%;
+        left: 5%;
     }
 }
