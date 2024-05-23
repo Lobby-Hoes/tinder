@@ -3,11 +3,14 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const {MongoClient} = require('mongodb');
 const fs = require('fs');
+const https = require('https');
 const {createHash} = require('crypto');
+const db = require('./server/db/mongo');
 
 //Constants
 const PORT = process.env.PORT || 4000;
 const MONGO_URI = process.env.MONGO_URI;
+const PRODUCTION = process.env.NODE_ENV === 'production';
 
 let client;
 
@@ -34,7 +37,7 @@ app.post('/api/register', (req, res) => {
     user.likedProfiles = [];
     user.dislikedProfiles = [];
 
-    getCollection('users').insertOne(user);
+    db.getCollection('users').insertOne(user);
 
     var session = createSession(user);
 
@@ -46,7 +49,7 @@ app.post('/api/login', async (req, res) => {
     var user = req.body;
     user.password = createHash('sha256').update(user.username + user.password).digest('hex');
 
-    var dbUser = await getCollection('users').findOne(user);
+    var dbUser = await db.getCollection('users').findOne(user);
     if (!dbUser || dbUser.password !== user.password) {
         res.sendStatus(401);
         return;
@@ -80,7 +83,7 @@ app.get('/api/new-profile', async (req, res) => {
     const dislikedProfiles = user.dislikedProfiles;
     const seenProfiles = likedProfiles.concat(dislikedProfiles);
 
-    var profile = await getCollection('users').aggregate([{
+    var profile = await db.getCollection('users').aggregate([{
         $match: {
             username: {
                 $ne: user.username,
@@ -100,31 +103,35 @@ app.get('/api/user', async (req, res) => {
     res.send(user);
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+if (PRODUCTION) {
+    https.createServer({
+        key: fs.readFileSync('keys/key.pem'),
+        cert: fs.readFileSync('keys/cert.pem')
+    }, app).listen(PORT, () => {
+        console.log(`Server is running in production mode at https://localhost:${PORT}`);
 
-    if (!MONGO_URI) {
-        throw new Error('MONGO_URI environment variable is not defined');
-    }
-    client = new MongoClient(MONGO_URI);
-    client.connect()
-        .then(() => {
-            console.log('Connected to MongoDB');
-        })
-        .catch((err) => {
-            console.error(err);
-        });
-});
+        if (!MONGO_URI) {
+            throw new Error('MONGO_URI environment variable is not defined');
+        }
+        db.connectToMongo(MONGO_URI);
+    });
+} else {
+    app.listen(PORT, () => {
+        console.log(`Server is running in development mode at http://localhost:${PORT}`);
 
-function getCollection(name) {
-    return client.db('tinder').collection(name);
+        if (!MONGO_URI) {
+            throw new Error('MONGO_URI environment variable is not defined');
+        }
+        db.connectToMongo(MONGO_URI);
+    });
+
 }
 
 function createSession(user) {
 
     const token = createHash('sha256').update(user.username + Date.now()).digest('hex')
 
-    getCollection('sessions').insertOne({
+    db.getCollection('sessions').insertOne({
         user: user.username,
         token: token,
         expires: Date.now() + 1000 * 60 * 60 * 24
@@ -135,7 +142,7 @@ function createSession(user) {
 }
 
 async function checkSession(token) {
-    var session = await getCollection('sessions').findOne({token: token});
+    var session = await db.getCollection('sessions').findOne({token: token});
     if (!session || session.expires < Date.now()) {
         return null;
     }
@@ -144,5 +151,5 @@ async function checkSession(token) {
 }
 
 async function getProfile(session) {
-    return await getCollection('users').findOne({username: session});
+    return await db.getCollection('users').findOne({username: session});
 }
