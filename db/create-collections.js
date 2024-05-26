@@ -1,15 +1,23 @@
-//Update this to your MongoDB connection string and run it in the MongoDB shell using load() to create the collections.
-//Do not remove the database name 'tinder' from the connection string.
-db = connect('mongodb://username:password@0.0.0.0:27017/tinder');
+const username = process.env.MONGO_USERNAME;
+const password = process.env.MONGO_PASSWORD;
+const host = process.env.MONGO_HOST;
+const port = process.env.MONGO_PORT;
+
+!username ? print('MONGO_USERNAME not set') : null
+!password ? print('MONGO_PASSWORD not set') : null
+!host ? print('MONGO_HOST not set') : null
+!port ? print('MONGO_PORT not set') : null
+
+db = connect(`mongodb://${username}:${password}@${host}:${port}/tinder`);
 
 const collections = ['users', 'sessions'];
 const dbCollections = db.getCollectionNames();
 
 print("Creating collections");
 
-for(var i = 0; i < collections.length; i++) {
+for (var i = 0; i < collections.length; i++) {
     print("Starting creating \"" + collections[i] + "\"");
-    if(!dbCollections.includes(collections[i])) {
+    if (!dbCollections.includes(collections[i])) {
         db.createCollection(collections[i]);
         print("\"" + collections[i] + "\" created");
     } else {
