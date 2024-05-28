@@ -7,6 +7,11 @@
     left: 35%;
 }
 
+.no-scale {
+    object-fit: cover;
+    object-position: 100% 50%;
+}
+
 .is-family-hobbylos {
     font-family: Hobbylos, sans-serif;
 }
@@ -21,6 +26,38 @@
 
 html {
     background-image: url("/resources/Kachel.png");
+}
+
+.loader-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    transition: opacity .3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+
+    .loader {
+        height: 80px;
+        width: 80px;
+        border-left: 8px solid #ffffff;
+        border-right: 8px solid transparent;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid #ffffff;
+    }
+
+    &.is-active {
+        opacity: 1;
+        z-index: 1;
+    }
+}
+
+.is-loading {
+    position: relative;
 }
 
 @media screen and (max-width: 959px) {

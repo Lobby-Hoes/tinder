@@ -102,7 +102,7 @@ class Carousel {
         let scale = (95 + 5 * Math.abs(propX)) / 100;
 
         // move top card
-        this.topCard.style.transform = `translateX(${posX}px) translateY(${posY}px) rotate(${deg}deg) rotateY(0deg) scale(1)`;
+        this.topCard.style.transform = `translateX(${posX}px) translateY(0px) rotate(${deg}deg) rotateY(0deg) scale(1)`;
 
         // scale next card
         if (this.nextCard) {
@@ -151,179 +151,178 @@ class Carousel {
     push(direction) {
         console.log("Moved to " + direction);
 
+        var xhr = new XMLHttpRequest();
+
         if (direction === Hammer.DIRECTION_LEFT) {
-            console.log("Dislike");
+            xhr.open('POST', '/api/dislike?user=' + this.topCard.querySelector('#username').innerText.replace('@', ''), true);
+            console.log("Disliked " + this.topCard.querySelector('#username').innerText.replace('@', ''));
         } else if (direction === Hammer.DIRECTION_RIGHT) {
-            console.log("Like");
+            xhr.open('POST', '/api/like?user=' + this.topCard.querySelector('#username').innerText.replace('@', ''), true);
+            console.log("Liked " + this.topCard.querySelector('#username').innerText.replace('@', ''));
         }
 
-        nextCard();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                nextCard();
+            }
+        }
+
+        xhr.send();
     }
 }
 
 var board = document.querySelector('#board');
-
 var carousel = new Carousel(board);
 
 window.onload = function () {
     //Initial load
-    for (var i = 0; i < 5; i++) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/api/new-profile', false);
-        xhr.send();
-        var profile = JSON.parse(xhr.responseText);
-
-        console.log(profile);
-        document.querySelector('#board').innerHTML += `
-                <div class="card">
-                    <div class="card-image">
-                        <figure class="image is-4by3">
-                            <img
-                                    src="https://bulma.io/assets/images/placeholders/1280x960.png"
-                                    alt="Placeholder image"
-                                    draggable="false"
-                            />
-                        </figure>
-                    </div>
-                    <div class="card-content pb-0">
-                        <div class="media">
-                            <div class="media-content">
-                                <b class="title is-4 mb-1">${profile.name}</b>
-                                <b class="ml-1 subtitle">${profile.birthday}</b>
-                                <br>
-                                <p class="is-size-6 is-lowercase has-text-weight-light">@${profile.username}</p>
-                                <span class="icon-text">
-                                  <span class="icon">
-                                    <i class="fas fa-home"></i>
-                                  </span>
-                                  <span>${profile.city} (<i>10km entfert</i>)</span>
-                                </span>
-                                <br>
-                                <span class="icon-text">
-                                  <span class="icon">
-                                    <i class="fa-solid fa-flag"></i>
-                                  </span>
-                                  <span>${profile.sexuality}</span>
-                                </span>
-                                <br>
-                                <span class="icon-text">
-                                  <span class="icon">
-                                    <i class="fa-solid fa-briefcase"></i>
-                                  </span>
-                                  <span>${profile.job}</span>
-                                </span>
-                            </div>
-                            <div class="media-right">
-                                <button class="button is-outlined is-large is-success">
-                                    <span class="icon is-small">
-                                        <i class="fa fa-heart"></i>
-                                    </span>
-                                </button>
-                                <button class="button is-outlined is-large is-danger">
-                                    <span class="icon is-small">
-                                        <i class="fa-solid fa-x"></i>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-            
-                        <div class="content">
-                            Hiiii,
-                            Ich bin der David und das hier ist der Prototyp der Lobbyhoe Tinder App V2.
-                        </div>
-            
-                        <h1 class="title is-6 mb-1">Lieblingsfolge</h1>
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/0TRbgtbwhNlsG6YnWWfxTY?utm_source=generator" width="100%" height="100" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                </div>
-            `;
-    }
-    console.log("Loaded 5 profiles");
-    console.log(board);
-
-    carousel = new Carousel(board);
-}
-
-function nextCard() {
-
-    var newCard = document.querySelector('.card');
-    newCard.querySelectorAll('.is-skeleton, .has-skeleton, iframe.is-hidden').forEach(e => e.classList.remove('is-hidden', 'has-skeleton', 'is-skeleton'));
-
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/api/new-profile', true);
-    xhr.send();
+    xhr.open('GET', '/api/new-profile?size=5', true);
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            var profile = JSON.parse(xhr.responseText);
-
-            document.querySelector('#board').innerHTML = `
-                <div class="card">
-                    <div class="card-image">
-                        <figure class="image is-4by3">
-                            <img
-                                    src="https://bulma.io/assets/images/placeholders/1280x960.png"
-                                    alt="Placeholder image"
-                                    draggable="false"
-                            />
-                        </figure>
-                    </div>
-                    <div class="card-content pb-0">
-                        <div class="media">
-                            <div class="media-content">
-                                <b class="title is-4 mb-1">${profile.name}</b>
-                                <b class="ml-1 subtitle">17</b>
-                                <br>
-                                <p class="is-size-6 is-lowercase has-text-weight-light">@${profile.username}</p>
-                                <span class="icon-text">
-                                  <span class="icon">
-                                    <i class="fas fa-home"></i>
-                                  </span>
-                                  <span>${profile.city} (<i>10km entfert</i>)</span>
-                                </span>
-                                <br>
-                                <span class="icon-text">
-                                  <span class="icon">
-                                    <i class="fa-solid fa-flag"></i>
-                                  </span>
-                                  <span>${profile.sexuality}</span>
-                                </span>
-                                <br>
-                                <span class="icon-text">
-                                  <span class="icon">
-                                    <i class="fa-solid fa-briefcase"></i>
-                                  </span>
-                                  <span>${profile.job}</span>
-                                </span>
-                            </div>
-                            <div class="media-right">
-                                <button class="button is-outlined is-large is-success">
-                                    <span class="icon is-small">
-                                        <i class="fa fa-heart"></i>
-                                    </span>
-                                </button>
-                                <button class="button is-outlined is-large is-danger">
-                                    <span class="icon is-small">
-                                        <i class="fa-solid fa-x"></i>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-            
-                        <div class="content">
-                            Hiiii,
-                            Ich bin der David und das hier ist der Prototyp der Lobbyhoe Tinder App V2.
-                        </div>
-            
-                        <h1 class="title is-6 mb-1">Lieblingsfolge</h1>
-                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/0TRbgtbwhNlsG6YnWWfxTY?utm_source=generator" width="100%" height="100" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-                </div>
-            ` + document.querySelector('#board').innerHTML;
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var profiles = JSON.parse(xhr.responseText);
+            if(profiles.length === 0) {
+                document.querySelector('#board').innerHTML += getNoMoreProfilesCardHTML();
+                return;
+            }
+            profiles.forEach(profile => {
+                document.querySelector('#board').innerHTML += getCardHTML(profile);
+            });
+            console.log("Loaded 5 profiles");
+            console.log(board);
 
             carousel = new Carousel(board);
         }
     }
 
+    xhr.send();
+}
 
+function nextCard() {
+
+    const cards = document.querySelectorAll('.card');
+
+    console.log(cards.length);
+
+    if (cards.length === 0) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/api/new-profile?size=5', true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var profiles = JSON.parse(xhr.responseText);
+                if(profiles.length === 0) {
+                    document.querySelector('#board').innerHTML += getNoMoreProfilesCardHTML();
+                    return;
+                }
+                profiles.forEach(profile => {
+                    document.querySelector('#board').innerHTML += getCardHTML(profile);
+                });
+                console.log("Loaded 5 profiles");
+                console.log(board);
+
+                carousel = new Carousel(board);
+            }
+        }
+
+        xhr.send();
+    }
+
+}
+
+function getCardHTML(profile) {
+
+    var ageDifMs = Date.now() - new Date(profile.birthday);
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    var years = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+    return `
+                <div class="card">
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <img
+                                    src="https://bulma.io/assets/images/placeholders/1280x960.png"
+                                    alt="Placeholder image"
+                                    draggable="false"
+                            />
+                        </figure>
+                    </div>
+                    <div class="card-content pb-0">
+                        <div class="media">
+                            <div class="media-content">
+                                <b class="title is-4 mb-1">${profile.name}</b>
+                                <b class="ml-1 subtitle">${years}</b>
+                                <br>
+                                <p id="username" class="is-size-6 is-lowercase has-text-weight-light">@${profile.username}</p>
+                                <span class="icon-text">
+                                  <span class="icon">
+                                    <i class="fas fa-home"></i>
+                                  </span>
+                                  <span>${profile.city} (<i>10km entfert</i>)</span>
+                                </span>
+                                <br>
+                                <span class="icon-text">
+                                  <span class="icon">
+                                    <i class="fa-solid fa-flag"></i>
+                                  </span>
+                                  <span>${profile.sexuality}</span>
+                                </span>
+                                <br>
+                                <span class="icon-text">
+                                  <span class="icon">
+                                    <i class="fa-solid fa-briefcase"></i>
+                                  </span>
+                                  <span>${profile.job}</span>
+                                </span>
+                            </div>
+                            <div class="media-right">
+                                <button class="button is-outlined is-large is-success">
+                                    <span class="icon is-small">
+                                        <i class="fa fa-heart"></i>
+                                    </span>
+                                </button>
+                                <button class="button is-outlined is-large is-danger">
+                                    <span class="icon is-small">
+                                        <i class="fa-solid fa-x"></i>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+            
+                        <div class="content">
+                            Hiiii,
+                            Ich bin der David und das hier ist der Prototyp der Lobbyhoe Tinder App V2.
+                        </div>
+            
+                        <h1 class="title is-6 mb-1">Lieblingsfolge</h1>
+                        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/0TRbgtbwhNlsG6YnWWfxTY?utm_source=generator" width="100%" height="100" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                </div>`;
+}
+
+function getNoMoreProfilesCardHTML() {
+    return `
+    <div class="card">
+        <div class="card-image">
+            <figure class="image is-4by3">
+                <img
+                        src="https://i.pinimg.com/originals/3f/c3/e0/3fc3e09dafd7ae54c542f6696f157d22.gif"
+                        alt="Julien Bam Gif mit einer Rose im Mund"
+                        draggable="false"
+                        class="no-scale"
+                />
+            </figure>
+        </div>
+        <div class="card-content pb-0">
+            <div class="media">
+                <div class="media-content">
+                    <h1 class="title is-4 has-text-centered is-family-hobbylos is-uppercase">Herzlichen Glückwunsch</h1>
+                    <p class="subtitle is-6 has-text-centered is-family-hobbylos">Du bist alle Profile durchgegangen</p>
+                    <p class="is-size-6 has-text-weight-medium has-text-centered mt-3 mb-4">Erhöhe deinen Suchradius oder schaue später nochmal vorbei!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
 }
