@@ -1,10 +1,13 @@
-@font-face { font-family: Hobbylos; src: url('/resources/AsketCondensed.otf'); }
+@font-face {
+    font-family: Hobbylos;
+    src: url('/resources/AsketCondensed.otf');
+}
 
 .is-family-hobbylos {
     font-family: Hobbylos, sans-serif;
 }
 
-.box {
+.input-box {
     width: 50%;
     margin: auto;
 }
@@ -14,6 +17,43 @@
     flex-direction: column;
 }
 
+.input-autocomplete {
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.fi {
+    border-radius: 3px;
+    background-size: unset !important;
+    margin-right: 0.5rem;
+    text-decoration: none !important;
+}
+
+.city-button {
+    justify-content: left;
+    border: none;
+    box-shadow: none;
+}
+
+.city-line {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.text-wrap {
+    text-wrap: balance;
+}
+
 html {
     background-image: url("/resources/Kachel.png");
+}
+
+@media screen and (max-width: 959px) {
+    .input-box {
+        width: 90%;
+        left: 5%;
+    }
 }

@@ -233,9 +233,18 @@ function nextCard() {
 
 function getCardHTML(profile) {
 
+    //Age
     var ageDifMs = Date.now() - new Date(profile.birthday);
     var ageDate = new Date(ageDifMs); // miliseconds from epoch
     var years = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+    console.log(profile);
+    //Distance
+    var meterDistance = profile.dist.calculated;
+    var kilometerDistance = Math.round(meterDistance / 1000);
+
+    console.log("Distance: " + kilometerDistance);
+    console.log("Meter Distance: " + meterDistance);
 
     return `
                 <div class="card">
@@ -259,7 +268,7 @@ function getCardHTML(profile) {
                                   <span class="icon">
                                     <i class="fas fa-home"></i>
                                   </span>
-                                  <span>${profile.city} (<i>10km entfert</i>)</span>
+                                  <span>${profile.city} (<i>${kilometerDistance}km entfert</i>)</span>
                                 </span>
                                 <br>
                                 <span class="icon-text">

@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="/register/style.css">
     <script defer src="https://use.fontawesome.com/releases/v6.5.2/js/all.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"
+    />
 
     <script defer src="/register/client.js"></script>
 </head>
@@ -20,7 +24,7 @@
 
 <div class="title is-1 has-text-centered mt-5 has-text-light is-uppercase is-family-hobbylos">🔥 Lobbyhoe Tinder</div>
 
-<div class="box">
+<div class="box input-box">
     <h1 class="title has-text-centered has-text-weight-semibold">Registrieren</h1>
     <div class="field stage-1">
         <label for="username" class="label">Username</label>
@@ -59,6 +63,8 @@
         <label for="city" class="label">In welcher Stadt lebst du?</label>
         <div class="control">
             <input id="city" type="text" autocomplete="address-level2" class="input">
+            <div class="box input-autocomplete is-hidden">
+            </div>
         </div>
     </div>
     <div class="field stage-2 is-hidden">

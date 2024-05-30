@@ -9,17 +9,27 @@ module.exports = function (app) {
         const likedProfiles = user.likedProfiles;
         const dislikedProfiles = user.dislikedProfiles;
         const seenProfiles = likedProfiles.concat(dislikedProfiles);
+        seenProfiles.push(user.username);
 
-        var profile = await db.getCollection('users').aggregate([{
-            $match: {
-                username: {
-                    $ne: user.username,
-                    $nin: seenProfiles
+        var profile = await db.getCollection('users').aggregate([
+            {
+                $geoNear: {
+                    near: {
+                        type: 'Point',
+                        coordinates: user.location.coordinates
+                    },
+                    distanceField: 'dist.calculated',
+                    maxDistance: user.distance,
+                    spherical: true,
+                    query: {
+                        username: { $nin: seenProfiles }
+                    }
                 }
+            },
+            {
+                $sample: { size: 1 }
             }
-        }, {
-            $sample: {size: Number(req.query.size) || 1}
-        }]).toArray();
+        ]).toArray();
 
         res.send(profile);
     });

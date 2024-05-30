@@ -20,6 +20,8 @@ module.exports = function (app) {
 
         //Insert additional fields
         user.creationDate = new Date();
+        user.birthday = new Date(user.birthday);
+        user.distance = 100000;
         user.likedProfiles = [];
         user.dislikedProfiles = [];
 
