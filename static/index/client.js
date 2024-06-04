@@ -243,9 +243,6 @@ function getCardHTML(profile) {
     var meterDistance = profile.dist.calculated;
     var kilometerDistance = Math.round(meterDistance / 1000);
 
-    console.log("Distance: " + kilometerDistance);
-    console.log("Meter Distance: " + meterDistance);
-
     return `
                 <div class="card">
                     <div class="card-image">

@@ -1,5 +1,7 @@
 const db = require('../db/mongo');
 const {checkSession, getProfile} = require('../auth/authUtils');
+const path = require("path");
+const __static = path.join(__dirname, '..', '..', 'static');
 
 module.exports = function (app) {
     app.get('/api/new-profile', async (req, res) => {
@@ -22,12 +24,12 @@ module.exports = function (app) {
                     maxDistance: user.distance,
                     spherical: true,
                     query: {
-                        username: { $nin: seenProfiles }
+                        username: {$nin: seenProfiles}
                     }
                 }
             },
             {
-                $sample: { size: 1 }
+                $sample: {size: Number(req.query.size) || 1}
             }
         ]).toArray();
 
@@ -36,7 +38,7 @@ module.exports = function (app) {
 
     app.get('/api/user', async (req, res) => {
         var session = await checkSession(req.cookies.session);
-        var user = getProfile(session);
+        var user = await getProfile(session);
         res.send(user);
     });
 
@@ -78,5 +80,23 @@ module.exports = function (app) {
         }).then(() => {
             res.sendStatus(200);
         });
+    });
+
+    app.post('/api/user/update', async (req, res) => {
+        var session = await checkSession(req.cookies.session);
+        var user = await getProfile(session);
+
+        var updates = req.body;
+
+        db.getCollection('users').updateOne({username: user.username}, {
+            $set: updates
+        }).then(() => {
+            res.sendStatus(200);
+        });
+    });
+
+    //Profile routes
+    app.get('/profile', (req, res) => {
+        res.sendFile(__static + '/profile/profile.html');
     });
 }
