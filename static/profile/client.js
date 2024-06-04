@@ -313,7 +313,7 @@ function save(button, tab) {
             if (name.value === '' || birthday.value === '' || city.value === '' || job.value === '') {
                 button.classList.remove('is-loading');
                 button.classList.remove('is-warning');
-                return;t add *g
+                return;
             }
 
             updateJson = {
