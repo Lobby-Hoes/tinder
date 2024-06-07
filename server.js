@@ -1,10 +1,8 @@
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
-const {MongoClient} = require('mongodb');
 const fs = require('fs');
 const https = require('https');
-const {createHash} = require('crypto');
 const db = require('./server/db/mongo');
 
 //Constants
@@ -12,8 +10,6 @@ const PORT = process.env.PORT || 4000;
 const MONGO_URI = process.env.MONGO_URI;
 const PRODUCTION = process.env.NODE_ENV === 'production';
 const SALT = process.env.SALT;
-
-let client;
 
 app.use(express.static('static'));
 app.use(express.json());
