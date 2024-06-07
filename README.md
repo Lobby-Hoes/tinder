@@ -35,6 +35,7 @@
 3. Set the following environment variables:
     - `MONGO_URI`: The Connection-String of your MongoDB Database
     - `PORT`: The Port the Backend should run on
+    - `SALT`: The Salt used for hashing passwords. This should be a random generated string
 4. Run the backend by using the following command:
     ```shell
     npm start
