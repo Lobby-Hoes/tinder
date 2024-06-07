@@ -28,6 +28,7 @@ window.onload = function () {
                 document.querySelector('#pronouns').value = data.pronouns;
                 document.querySelector('#sexuality').value = data.sexuality;
                 document.querySelector('#distance').setAttribute('distance', data.distance);
+                document.querySelector('#id').innerHTML = data._id;
 
                 document.querySelectorAll('.is-skeleton').forEach(element => {
                     element.classList.remove('is-skeleton');
@@ -201,7 +202,7 @@ function getState(code1, code3, country) {
             case 'ZH':
                 return 'Zürich';
         }
-    } else if(country === 'LI') {
+    } else if (country === 'LI') {
         return 'Liechtenstein';
     }
 }
@@ -227,6 +228,10 @@ function showMap() {
         showCloseButton: true,
         confirmButtonColor: 'rgb(76, 201, 255)',
         confirmButtonText: 'Speichern',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.querySelector('#distance').setAttribute('distance', document.querySelector('#radius').value * 1000);
+        }
     });
 
     var lon = document.querySelector('#city').getAttribute('lon');
@@ -304,6 +309,7 @@ function save(button, tab) {
             var birthday = document.querySelector('#birthday');
             var city = document.querySelector('#city');
             var job = document.querySelector('#job');
+            var distance = document.querySelector('#distance');
 
             name.value !== '' ? name.classList.remove('is-danger') : name.classList.add('is-danger');
             birthday.value !== '' ? birthday.classList.remove('is-danger') : birthday.classList.add('is-danger');
@@ -324,9 +330,25 @@ function save(button, tab) {
                 location: {
                     type: 'Point',
                     coordinates: [parseFloat(city.getAttribute('lon')), parseFloat(city.getAttribute('lat'))]
-                }
+                },
+                distance: parseInt(distance.getAttribute('distance'))
             }
 
+            break;
+
+        case 'account':
+            var username = document.querySelector('#username');
+
+            if (username.value === '') {
+                username.classList.add('is-danger');
+                button.classList.remove('is-loading');
+                button.classList.remove('is-warning');
+                return;
+            }
+
+            updateJson = {
+                username: username.value
+            }
             break;
     }
 

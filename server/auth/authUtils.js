@@ -5,7 +5,7 @@ module.exports = {
         const token = createHash('sha256').update(user.username + Date.now()).digest('hex')
 
         db.getCollection('sessions').insertOne({
-            user: user.username,
+            user: user._id,
             token: token,
             expires: Date.now() + 1000 * 60 * 60 * 24
         });
@@ -23,6 +23,10 @@ module.exports = {
     },
 
     async getProfile(session) {
-        return await db.getCollection('users').findOne({username: session});
+        return await db.getCollection('users').findOne({_id: session});
+    },
+
+    getSalt() {
+        return process.env.SALT;
     }
 }

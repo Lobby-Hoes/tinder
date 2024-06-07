@@ -1,4 +1,4 @@
-const {MongoClient} = require('mongodb');
+const {MongoClient, ObjectId} = require('mongodb');
 var client, db;
 module.exports = {
 
@@ -15,5 +15,9 @@ module.exports = {
 
     getCollection: function (collectionName) {
         return db.collection(collectionName);
+    },
+
+    newObjectID: function () {
+        return new ObjectId();
     }
 }

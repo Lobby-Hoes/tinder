@@ -88,7 +88,7 @@ module.exports = function (app) {
 
         var updates = req.body;
 
-        db.getCollection('users').updateOne({username: user.username}, {
+        db.getCollection('users').updateOne({_id: user._id}, {
             $set: updates
         }).then(() => {
             res.sendStatus(200);

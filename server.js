@@ -11,6 +11,7 @@ const db = require('./server/db/mongo');
 const PORT = process.env.PORT || 4000;
 const MONGO_URI = process.env.MONGO_URI;
 const PRODUCTION = process.env.NODE_ENV === 'production';
+const SALT = process.env.SALT;
 
 let client;
 
@@ -26,25 +27,25 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/static/index/index.html');
 });
 
+//ENVIRONMENT VARIABLES CHECK
+if (!MONGO_URI) {
+    throw new Error('MONGO_URI environment variable is not defined');
+}
+if (!SALT) {
+    throw new Error('SALT environment variable is not defined');
+}
+
 if (PRODUCTION) {
     https.createServer({
         key: fs.readFileSync('keys/key.pem'),
         cert: fs.readFileSync('keys/cert.pem')
     }, app).listen(PORT, () => {
         console.log(`Server is running in production mode at https://localhost:${PORT}`);
-
-        if (!MONGO_URI) {
-            throw new Error('MONGO_URI environment variable is not defined');
-        }
         db.connectToMongo(MONGO_URI);
     });
 } else {
     app.listen(PORT, () => {
         console.log(`Server is running in development mode at http://localhost:${PORT}`);
-
-        if (!MONGO_URI) {
-            throw new Error('MONGO_URI environment variable is not defined');
-        }
         db.connectToMongo(MONGO_URI);
     });
 

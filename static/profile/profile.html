@@ -67,11 +67,14 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
             </div>
         </div>
         <div class="field">
+            <label class="label is-italic is-skeleton">Account ID: <span id="id"></span></label>
+        </div>
+        <div class="field">
             <label class="label is-italic is-skeleton">Account erstellt am: <span id="creation-date"></span></label>
         </div>
         <div class="field is-grouped">
             <div class="control">
-                <button class="button is-success is-uppercase is-family-hobbylos is-skeleton">Speichern</button>
+                <button onclick="save(this, 'account')" class="button is-success is-uppercase is-family-hobbylos is-skeleton">Speichern</button>
             </div>
             <div class="control">
                 <button class="button is-warning is-uppercase is-family-hobbylos is-skeleton">Passwort ändern</button>
