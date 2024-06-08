@@ -350,6 +350,26 @@ function save(button, tab) {
                 username: username.value
             }
             break;
+
+        case "preference":
+            var pronouns = document.querySelector('#pronouns');
+
+            if (pronouns.value === '') {
+                pronouns.classList.add('is-danger');
+                button.classList.remove('is-loading');
+                button.classList.remove('is-warning');
+                return;
+            }
+
+            console.log(getPossibleMatches('Männlich', 'Asexuell'));
+
+            
+
+            updateJson = {
+                pronouns: pronouns.value
+            }
+            break;
+
     }
 
     var xhr = new XMLHttpRequest();

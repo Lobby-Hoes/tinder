@@ -42,6 +42,7 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-switch@2.0.4/dist/css/bulma-switch.min.css">
 
     <script defer src="/profile/client.js"></script>
+    <script defer src="/utils/matchingUtils.js"></script>
 </head>
 <body>
 
@@ -158,7 +159,7 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
             <div class="control">
                 <div class="select is-skeleton">
                     <select class="is-skeleton" name="" id="sexuality">
-                        <option>Asexual</option>
+                        <option>Asexuell</option>
                         <option>Androsexuell</option>
                         <option>Bisexuell</option>
                         <option>Demisexuell</option>
@@ -168,6 +169,7 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
                         <option>Pansexuell</option>
                         <option>Polysexuell</option>
                         <option>Nomasexuell</option>
+                        <option>Nowomasexuell</option>
                         <option>Unlabled</option>
                         <option>Skoliosexuell</option>
                     </select>
@@ -177,7 +179,7 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
 
         <div class="field is-grouped">
             <div class="control">
-                <button class="button is-success is-uppercase is-family-hobbylos is-skeleton">Speichern</button>
+                <button class="button is-success is-uppercase is-family-hobbylos is-skeleton" onclick="save(this, 'preference')">Speichern</button>
             </div>
         </div>
     </div>
