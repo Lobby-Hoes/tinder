@@ -234,8 +234,6 @@ function removeGender(arr, ...gender) {
 }
 
 function removeSexuality(arr, ...sexuality) {
-    console.log(arr);
-    console.log(sexuality);
     for (var i = 0; i < arr.length; i++) {
         console.log(arr[i]);
         var obj = JSON.parse(JSON.stringify(arr[i]));

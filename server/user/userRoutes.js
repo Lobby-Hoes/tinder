@@ -8,6 +8,21 @@ module.exports = function (app) {
         var session = await checkSession(req.cookies.session);
         var user = await getProfile(session);
 
+        //Build Filter by sex and sexuality
+        const preferences = user.preferences;
+        var orCondition = [];
+
+        for (let i in preferences) {
+            const preference = preferences[i];
+            const gender = preference.sex;
+            const sexualities = preference.sexualities;
+            orCondition.push({
+                sex: gender,
+                sexuality: {$in: sexualities}
+            })
+        }
+
+        //Only show profiles that the user has not seen
         const likedProfiles = user.likedProfiles;
         const dislikedProfiles = user.dislikedProfiles;
         const seenProfiles = likedProfiles.concat(dislikedProfiles);
@@ -24,7 +39,8 @@ module.exports = function (app) {
                     maxDistance: user.distance,
                     spherical: true,
                     query: {
-                        username: {$nin: seenProfiles}
+                        username: {$nin: seenProfiles},
+                        $or: orCondition
                     }
                 }
             },

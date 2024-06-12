@@ -364,12 +364,11 @@ function save(button, tab) {
             var gender = document.querySelector('#sex').value;
             var sexuality = document.querySelector('#sexuality').value;
 
-            console.log(getPossibleMatches(gender, sexuality));
-
-            
+            const preferences = getPossibleMatches(gender, sexuality);
 
             updateJson = {
-                pronouns: pronouns.value
+                pronouns: pronouns.value,
+                preferences: preferences
             }
             break;
 
