@@ -361,7 +361,10 @@ function save(button, tab) {
                 return;
             }
 
-            console.log(getPossibleMatches('Männlich', 'Asexuell'));
+            var gender = document.querySelector('#sex').value;
+            var sexuality = document.querySelector('#sexuality').value;
+
+            console.log(getPossibleMatches(gender, sexuality));
 
             
 

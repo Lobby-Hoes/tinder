@@ -1,66 +1,170 @@
-function getPossibleMatches(rawSex, rawSexuality) {
+function getPossibleMatches(rawGender, rawSexuality) {
 
     //Calculate all sexualties with all genders
-    var allSexes = [];
+    var allGenders = [];
     var allSexualities = [];
     const sexualities = JSON.parse(JSON.stringify(Sexuality));
     for (var key in sexualities) {
         allSexualities.push(sexualities[key]);
     }
-    const sexes = JSON.parse(JSON.stringify(Sex));
-    for (var key in sexes) {
-        allSexes.push({
-            sex: sexes[key],
+    const genders = JSON.parse(JSON.stringify(Gender));
+    for (var key in genders) {
+        allGenders.push({
+            sex: genders[key],
             sexualities: allSexualities
         });
     }
 
-    const sex = getSex(rawSex);
+    const gender = getGender(rawGender);
     const sexuality = getSexuality(rawSexuality);
-    switch (sex) {
-        case Sex.MALE:
+
+    //Set possible matching partners where to this profile is shown
+    switch (gender) {
+        case Gender.MALE:
             switch (sexuality) {
                 case Sexuality.ASEXUAL:
-                    return allSexes;
+                    return removeSexuality(allGenders, Sexuality.NOMASEXUAL, Sexuality.GYNOSEXUAL, Sexuality.SKOLIOSEXUAL);
                 case Sexuality.ANDROSEXUAL:
                     return [{
-                        sex: Sex.MALE,
-                        sexualities: [Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.HOMOSEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOWOMASEXUAL, Sexuality.UNLABLED]
+                        sex: Gender.MALE,
+                        sexualities: [Sexuality.ANDROSEXUAL, Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.HOMOSEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOWOMASEXUAL, Sexuality.UNLABLED]
                     }];
                 case Sexuality.BISEXUAL:
                     return [{
-                        sex: Sex.MALE,
+                        sex: Gender.MALE,
                         sexualities: [Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.HOMOSEXUAL, Sexuality.ANDROSEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOWOMASEXUAL, Sexuality.UNLABLED]
                     }, {
-                        sex: Sex.FEMALE,
+                        sex: Gender.FEMALE,
                         sexualities: [Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.HETEROSEXUAL, Sexuality.PANSEXUAL, Sexuality.ANDROSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOWOMASEXUAL, Sexuality.UNLABLED]
                     }];
                 case Sexuality.DEMISEXUAL:
-                    return allSexes;
+                    return removeSexuality(allGenders, Sexuality.NOMASEXUAL, Sexuality.GYNOSEXUAL, Sexuality.SKOLIOSEXUAL);
                 case Sexuality.GYNOSEXUAL:
-                    return [Sex.FEMALE];
+                    return [{
+                        sex: Gender.FEMALE,
+                        sexualities: [Sexuality.ANDROSEXUAL, Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.HETEROSEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOWOMASEXUAL, Sexuality.UNLABLED]
+                    }];
                 case Sexuality.HETEROSEXUAL:
-                    return [Sex.FEMALE];
+                    return [{
+                        sex: Gender.FEMALE,
+                        sexualities: [Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.HETEROSEXUAL, Sexuality.PANSEXUAL, Sexuality.ANDROSEXUAL, Sexuality.POLYSEXUAL, Sexuality.UNLABLED]
+                    }]
                 case Sexuality.HOMOSEXUAL:
-                    return [Sex.MALE];
+                    return [{
+                        sex: Gender.MALE,
+                        sexualities: [Sexuality.ANDROSEXUAL, Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.HOMOSEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOWOMASEXUAL, Sexuality.UNLABLED]
+                    }]
                 case Sexuality.PANSEXUAL:
-                    return allSexes;
+                    return removeSexuality(allGenders, Sexuality.NOMASEXUAL, Sexuality.GYNOSEXUAL, Sexuality.SKOLIOSEXUAL);
+                    ;
                 case Sexuality.POLYSEXUAL:
-                    return allSexes;
+                    return removeSexuality(allGenders, Sexuality.NOMASEXUAL, Sexuality.GYNOSEXUAL, Sexuality.SKOLIOSEXUAL);
+                    ;
                 case Sexuality.NOMASEXUAL:
-                    return Object.keys(Sex).splice(allSexes.indexOf(Sex.MALE), 1);
+                    return removeSexuality(removeGender(allGenders, Gender.MALE), Sexuality.GYNOSEXUAL, Sexuality.NOMASEXUAL, Sexuality.SKOLIOSEXUAL);
                 case Sexuality.NOWOMASEXUAL:
-                    return Object.keys(Sex).splice(allSexes.indexOf(Sex.FEMALE), 1);
+                    return removeSexuality(removeGender(allGenders, Gender.FEMALE), Sexuality.GYNOSEXUAL, Sexuality.NOMASEXUAL, Sexuality.SKOLIOSEXUAL);
                 case Sexuality.UNLABLED:
-                    return allSexes;
+                    return removeSexuality(allGenders, Sexuality.GYNOSEXUAL, Sexuality.NOMASEXUAL, Sexuality.SKOLIOSEXUAL);
                 case Sexuality.SKOLIOSEXUAL:
-                    return [Sex.NONBINARY];
-
+                    return [{
+                        sex: Gender.NONBINARY,
+                        sexualities: [Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.ANDROSEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOWOMASEXUAL, Sexuality.UNLABLED]
+                    }];
             }
             break;
 
-        case Sex.FEMALE:
+        case Gender.FEMALE:
+            switch (sexuality) {
+                case Sexuality.ASEXUAL:
+                    return removeSexuality(allGenders, Sexuality.NOWOMASEXUAL, Sexuality.ANDROSEXUAL, Sexuality.SKOLIOSEXUAL);
+                case Sexuality.ANDROSEXUAL:
+                    return [{
+                        sex: Gender.MALE,
+                        sexualities: [Sexuality.GYNOSEXUAL, Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOMASEXUAL, Sexuality.UNLABLED]
+                    }];
+                case Sexuality.BISEXUAL:
+                    return [{
+                        sex: Gender.MALE,
+                        sexualities: [Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.HETEROSEXUAL, Sexuality.GYNOSEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOMASEXUAL, Sexuality.UNLABLED]
+                    }, {
+                        sex: Gender.FEMALE,
+                        sexualities: [Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.HOMOSEXUAL, Sexuality.PANSEXUAL, Sexuality.GYNOSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOMASEXUAL, Sexuality.UNLABLED]
+                    }];
+                case Sexuality.DEMISEXUAL:
+                    return removeSexuality(allGenders, Sexuality.NOWOMASEXUAL, Sexuality.ANDROSEXUAL, Sexuality.SKOLIOSEXUAL);
+                case Sexuality.GYNOSEXUAL:
+                    return [{
+                        sex: Gender.FEMALE,
+                        sexualities: [Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.HOMOSEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOMASEXUAL, Sexuality.UNLABLED]
+                    }];
+                case Sexuality.HETEROSEXUAL:
+                    return [{
+                        sex: Gender.MALE,
+                        sexualities: [Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.HETEROSEXUAL, Sexuality.PANSEXUAL, Sexuality.GYNOSEXUAL, Sexuality.POLYSEXUAL, Sexuality.UNLABLED]
+                    }]
+                case Sexuality.HOMOSEXUAL:
+                    return [{
+                        sex: Gender.FEMALE,
+                        sexualities: [Sexuality.ASEXUAL, Sexuality.GYNOSEXUAL, Sexuality.BISEXUAL, Sexuality.HOMOSEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOMASEXUAL, Sexuality.UNLABLED]
+                    }]
+                case Sexuality.PANSEXUAL:
+                    return removeSexuality(allGenders, Sexuality.NOWOMASEXUAL, Sexuality.ANDROSEXUAL, Sexuality.SKOLIOSEXUAL);
+                    ;
+                case Sexuality.POLYSEXUAL:
+                    return removeSexuality(allGenders, Sexuality.NOWOMASEXUAL, Sexuality.ANDROSEXUAL, Sexuality.SKOLIOSEXUAL);
+                    ;
+                case Sexuality.NOMASEXUAL:
+                    return removeSexuality(removeGender(allGenders, Gender.MALE), Sexuality.NOWOMASEXUAL, Sexuality.ANDROSEXUAL, Sexuality.SKOLIOSEXUAL);
+                case Sexuality.NOWOMASEXUAL:
+                    return removeSexuality(removeGender(allGenders, Gender.FEMALE), Sexuality.NOWOMASEXUAL, Sexuality.ANDROSEXUAL, Sexuality.SKOLIOSEXUAL);
+                case Sexuality.UNLABLED:
+                    return removeSexuality(allGenders, Sexuality.NOWOMASEXUAL, Sexuality.ANDROSEXUAL, Sexuality.SKOLIOSEXUAL);
+                case Sexuality.SKOLIOSEXUAL:
+                    return [{
+                        sex: Gender.NONBINARY,
+                        sexualities: [Sexuality.ASEXUAL, Sexuality.BISEXUAL, Sexuality.GYNOSEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOMASEXUAL, Sexuality.UNLABLED]
+                    }];
+            }
+            break;
 
+        case Gender.INTERSEX:
+            switch(sexuality) {
+                case Sexuality.ASEXUAL:
+                    return removeSexuality(allGenders, Sexuality.SKOLIOSEXUAL);
+                case Sexuality.ANDROSEXUAL:
+                    return [{
+                        sex: Gender.MALE,
+                        sexualities: [Sexuality.ASEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOMASEXUAL, Sexuality.NOWOMASEXUAL, Sexuality.UNLABLED]
+                    }];
+                case Sexuality.BISEXUAL:
+                    return [{
+                        sex: Gender.MALE,
+                        sexualities: [Sexuality.ASEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOMASEXUAL, Sexuality.NOWOMASEXUAL, Sexuality.UNLABLED]
+                    }, {
+                        sex: Gender.FEMALE,
+                        sexualities: [Sexuality.ASEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOMASEXUAL, Sexuality.NOWOMASEXUAL, Sexuality.UNLABLED]
+                    }];
+                case Sexuality.GYNOSEXUAL:
+                    return [{
+                        sex: Gender.FEMALE,
+                        sexualities: [Sexuality.ASEXUAL, Sexuality.DEMISEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOMASEXUAL, Sexuality.NOWOMASEXUAL, Sexuality.UNLABLED]
+                    }];
+
+                case Sexuality.DEMISEXUAL:
+                    return removeSexuality(allGenders, Sexuality.ANDROSEXUAL, Sexuality.GYNOSEXUAL, Sexuality.BISEXUAL, Sexuality.HETEROSEXUAL, Sexuality.HOMOSEXUAL);
+
+                case Sexuality.HETEROSEXUAL:
+                    return removeSexuality(allGenders, Sexuality.ANDROSEXUAL, Sexuality.GYNOSEXUAL, Sexuality.BISEXUAL, Sexuality.HETEROSEXUAL, Sexuality.HOMOSEXUAL);
+
+                case Sexuality.HOMOSEXUAL:
+                    return [{
+                        sex: Gender.INTERSEX,
+                        sexualities: [Sexuality.ASEXUAL, Sexuality.DEMISEXUAL, Sexuality.HOMOSEXUAL, Sexuality.PANSEXUAL, Sexuality.POLYSEXUAL, Sexuality.NOMASEXUAL, Sexuality.NOWOMASEXUAL, Sexuality.UNLABLED]
+                    }];
+
+                case Sexuality.PANSEXUAL:
+            }
             break;
 
 
@@ -84,7 +188,7 @@ const Sexuality = {
     SKOLIOSEXUAL: 'Skoliosexuell',
 }
 
-const Sex = {
+const Gender = {
     MALE: 'Männlich',
     FEMALE: 'Weiblich',
     INTERSEX: 'Intergeschlechtlich',
@@ -105,11 +209,11 @@ function getSexuality(str) {
     return null;
 }
 
-function getSex(str) {
-    const sexes = JSON.parse(JSON.stringify(Sex));
-    for (var key in sexes) {
-        if (str.includes(sexes[key])) {
-            return sexes[key];
+function getGender(str) {
+    const genders = JSON.parse(JSON.stringify(Gender));
+    for (var key in genders) {
+        if (str.includes(genders[key])) {
+            return genders[key];
         }
     }
 
@@ -117,3 +221,33 @@ function getSex(str) {
 
 }
 
+function removeGender(arr, ...gender) {
+    for (var i = 0; i < arr.length; i++) {
+        var obj = JSON.parse(JSON.stringify(arr[i]));
+        if (gender.includes(obj.sex)) {
+            arr.splice(i, 1);
+        }
+    }
+
+    return arr;
+
+}
+
+function removeSexuality(arr, ...sexuality) {
+    console.log(arr);
+    console.log(sexuality);
+    for (var i = 0; i < arr.length; i++) {
+        console.log(arr[i]);
+        var obj = JSON.parse(JSON.stringify(arr[i]));
+        for (var j = 0; j < obj.sexualities.length; j++) {
+            if (sexuality.includes(obj.sexualities[j])) {
+                obj.sexualities.splice(j, 1);
+            }
+        }
+
+        arr[i] = obj;
+    }
+
+    return arr;
+
+}
