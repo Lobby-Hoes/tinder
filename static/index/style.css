@@ -60,9 +60,27 @@ html {
     position: relative;
 }
 
+.profile-icon {
+    position: absolute;
+    top: 1rem;
+    right:1rem;
+    width: 4rem;
+    border-radius: 100%;
+    border: 3px solid white;
+}
+
 @media screen and (max-width: 959px) {
     .card {
         width: 90%;
         left: 5%;
+    }
+
+    .profile-icon {
+        position: relative;
+        width: 4rem;
+        border-radius: 100%;
+        border: 3px solid white;
+        float: right;
+        top: 0;
     }
 }

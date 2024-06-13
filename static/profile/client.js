@@ -368,6 +368,8 @@ function save(button, tab) {
 
             updateJson = {
                 pronouns: pronouns.value,
+                sex: gender,
+                sexuality: sexuality,
                 preferences: preferences
             }
             break;

@@ -76,6 +76,20 @@ module.exports = function (app) {
         }).then(() => {
             res.sendStatus(200);
         });
+
+        //Check for matches
+        db.getCollection('users').findOne({
+            username: likedUser,
+            likedProfiles: user.username
+        }).then((data) => {
+            if(data) {
+                console.log(data);
+            } else {
+                console.log("No user found");
+            }
+        });
+
+
     });
 
     app.post('/api/dislike', async (req, res) => {

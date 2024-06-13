@@ -54,6 +54,15 @@ html {
     background-image: url("/resources/Kachel.png");
 }
 
+.profile-icon {
+    position: absolute;
+    top: 1rem;
+    right:1rem;
+    width: 4rem;
+    border-radius: 100%;
+    border: 3px solid white;
+}
+
 @media screen and (max-width: 959px) {
     .input-box {
         width: 90%;
@@ -62,5 +71,14 @@ html {
 
     #map {
         height: 300px;
+    }
+
+    .profile-icon {
+        position: relative;
+        width: 4rem;
+        border-radius: 100%;
+        border: 3px solid white;
+        float: right;
+        top: 0;
     }
 }
