@@ -11,6 +11,10 @@
     background: rgb(76, 201, 255) !important;
 }
 
+.is-hobbylos {
+    background-color: rgb(76, 201, 255);
+}
+
 .input-box {
     width: 50%;
     margin: auto;

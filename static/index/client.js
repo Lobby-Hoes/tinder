@@ -163,6 +163,11 @@ class Carousel {
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
+                var match = JSON.parse(xhr.responseText.toLowerCase());
+                if(match) {
+                    console.log("It's a match!");
+                    console.log(window.confetti);
+                }
                 nextCard();
             }
         }

@@ -52,18 +52,158 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
 <div class="title is-1 has-text-centered mt-5 has-text-light is-uppercase is-family-hobbylos">🔥 Lobbyhoe Tinder</div>
 
 <div class="box input-box">
-    <h1 class="title is-3 has-text-centered is-uppercase is-family-hobbylos">Einstellungen</h1>
+    <h1 class="title is-3 has-text-centered is-uppercase is-family-hobbylos">Dein Profil</h1>
     <div class="tabs is-boxed">
         <ul>
-            <li class="tab-account-settings is-active"><a onclick="switchTab('account-settings')">Account</a></li>
+            <li class="tab-matches is-active"><a onclick="switchTab('matches')">Matches</a></li>
+            <li class="tab-account-settings"><a onclick="switchTab('account-settings')">Account</a></li>
             <li class="tab-profile-settings"><a onclick="switchTab('profile-settings')">Profil</a></li>
             <li class="tab-preference-settings"><a onclick="switchTab('preference-settings')">Präferenzen</a></li>
             <li class="tab-stats-settings"><a onclick="switchTab('stats-settings')">Statistiken</a></li>
         </ul>
     </div>
 
+    <!-- Matches -->
+    <div class="tab matches">
+        <h1 class="title has-text-centered is-3 is-uppercase is-family-hobbylos">Matches</h1>
+        <hr>
+        <div class="box">
+            <div class="columns">
+                <div class="column">
+                    <figure class="image is-4by3">
+                        <img
+                                src="https://bulma.io/assets/images/placeholders/1280x960.png"
+                                alt="Placeholder image"
+                                draggable="false"
+                        />
+                    </figure>
+                </div>
+                <div class="column">
+                    <b class="title is-4 mb-1">Andi</b>
+                    <b class="ml-1 subtitle">17</b>
+                    <br>
+                    <span class="icon-text">
+                      <span class="icon">
+                        <i class="fas fa-home"></i>
+                      </span>
+                      <span>Hanau (<i>10km entfert</i>)</span>
+                    </span>
+                    <br>
+                    <span class="icon-text">
+                      <span class="icon">
+                        <i class="fa-solid fa-flag"></i>
+                      </span>
+                      <span>Bisexuell</span>
+                    </span>
+                    <br>
+                    <span class="icon-text">
+                      <span class="icon">
+                        <i class="fa-solid fa-briefcase"></i>
+                      </span>
+                      <span>Designer</span>
+                    </span>
+                    <button class="button is-success is-hobbylos is-uppercase is-family-hobbylos is-fullwidth is-rounded mt-3">
+                        Profil ansehen
+                    </button>
+                </div>
+
+                <div class="column">
+                    <div class="buttons is-centered">
+                        <button class="p-3 button is-large is-ghost">
+                            <span class="icon is-large">
+                                <i class="fa-brands fa-instagram fa-lg"></i>
+                            </span>
+                        </button>
+                        <button class="p-3 button is-large is-ghost">
+                            <span class="icon is-large">
+                                <i class="fa-brands fa-discord fa-lg"></i>
+                            </span>
+                        </button>
+                        <button class="p-3 button is-large is-ghost">
+                            <span class="icon is-large">
+                                <i class="fa-brands fa-snapchat fa-lg"></i>
+                            </span>
+                        </button>
+                        <button class="p-3 button is-large is-ghost">
+                            <span class="icon is-large">
+                                <i class="fa-brands fa-whatsapp fa-lg"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="columns">
+                <div class="column">
+                    <figure class="image is-4by3">
+                        <img
+                                src="https://bulma.io/assets/images/placeholders/1280x960.png"
+                                alt="Placeholder image"
+                                draggable="false"
+                        />
+                    </figure>
+                </div>
+                <div class="column">
+                    <b class="title is-4 mb-1">Andi</b>
+                    <b class="ml-1 subtitle">17</b>
+                    <br>
+                    <span class="icon-text">
+                      <span class="icon">
+                        <i class="fas fa-home"></i>
+                      </span>
+                      <span>Hanau (<i>10km entfert</i>)</span>
+                    </span>
+                    <br>
+                    <span class="icon-text">
+                      <span class="icon">
+                        <i class="fa-solid fa-flag"></i>
+                      </span>
+                      <span>Bisexuell</span>
+                    </span>
+                    <br>
+                    <span class="icon-text">
+                      <span class="icon">
+                        <i class="fa-solid fa-briefcase"></i>
+                      </span>
+                      <span>Designer</span>
+                    </span>
+                    <button class="button is-success is-hobbylos is-uppercase is-family-hobbylos is-fullwidth is-rounded mt-3">
+                        Profil ansehen
+                    </button>
+                </div>
+
+                <div class="column">
+                    <div class="buttons is-centered">
+                        <button class="p-3 button is-large is-ghost">
+                            <span class="icon is-large">
+                                <i class="fa-brands fa-instagram fa-lg"></i>
+                            </span>
+                        </button>
+                        <button class="p-3 button is-large is-ghost">
+                            <span class="icon is-large">
+                                <i class="fa-brands fa-discord fa-lg"></i>
+                            </span>
+                        </button>
+                        <button class="p-3 button is-large is-ghost">
+                            <span class="icon is-large">
+                                <i class="fa-brands fa-snapchat fa-lg"></i>
+                            </span>
+                        </button>
+                        <button class="p-3 button is-large is-ghost">
+                            <span class="icon is-large">
+                                <i class="fa-brands fa-whatsapp fa-lg"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Account Settings -->
-    <div class="tab account-settings">
+    <div class="tab account-settings is-hidden">
         <div class="field">
             <label class="label is-skeleton">Benutzername</label>
             <div class="control">
@@ -78,7 +218,9 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
         </div>
         <div class="field is-grouped">
             <div class="control">
-                <button onclick="save(this, 'account')" class="button is-success is-uppercase is-family-hobbylos is-skeleton">Speichern</button>
+                <button onclick="save(this, 'account')"
+                        class="button is-success is-uppercase is-family-hobbylos is-skeleton">Speichern
+                </button>
             </div>
             <div class="control">
                 <button class="button is-warning is-uppercase is-family-hobbylos is-skeleton">Passwort ändern</button>
@@ -108,7 +250,9 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
                 </div>
             </div>
             <div class="control">
-                <button id="distance" class="button is-info is-uppercase is-family-hobbylos is-skeleton" onclick="showMap()">Suchradius</button>
+                <button id="distance" class="button is-info is-uppercase is-family-hobbylos is-skeleton"
+                        onclick="showMap()">Suchradius
+                </button>
             </div>
         </div>
         <div class="field">
@@ -121,7 +265,9 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
 
         <div class="field is-grouped">
             <div class="control">
-                <button class="button is-success is-uppercase is-family-hobbylos is-skeleton" onclick="save(this, 'profile')">Speichern</button>
+                <button class="button is-success is-uppercase is-family-hobbylos is-skeleton"
+                        onclick="save(this, 'profile')">Speichern
+                </button>
             </div>
         </div>
     </div>
@@ -182,7 +328,9 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
 
         <div class="field is-grouped">
             <div class="control">
-                <button class="button is-success is-uppercase is-family-hobbylos is-skeleton" onclick="save(this, 'preference')">Speichern</button>
+                <button class="button is-success is-uppercase is-family-hobbylos is-skeleton"
+                        onclick="save(this, 'preference')">Speichern
+                </button>
             </div>
         </div>
     </div>

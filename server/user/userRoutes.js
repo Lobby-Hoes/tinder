@@ -19,7 +19,7 @@ module.exports = function (app) {
             orCondition.push({
                 sex: gender,
                 sexuality: {$in: sexualities}
-            })
+            });
         }
 
         //Only show profiles that the user has not seen
@@ -73,8 +73,6 @@ module.exports = function (app) {
             $push: {
                 likedProfiles: likedUser
             }
-        }).then(() => {
-            res.sendStatus(200);
         });
 
         //Check for matches
@@ -82,10 +80,13 @@ module.exports = function (app) {
             username: likedUser,
             likedProfiles: user.username
         }).then((data) => {
-            if(data) {
-                console.log(data);
-            } else {
-                console.log("No user found");
+            res.send(data !== null);
+            if (data) {
+                db.getCollection('matches').insertOne({
+                    users: [user.username, likedUser],
+                    date: new Date(),
+                    seen: []
+                });
             }
         });
 
