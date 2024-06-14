@@ -38,6 +38,23 @@ window.onload = function () {
     }
     xhr.send();
 
+    //Load matches
+    var matchReq = new XMLHttpRequest();
+    matchReq.open('GET', '/api/matches', true);
+    matchReq.onreadystatechange = function () {
+        if(matchReq.readyState == 4) {
+            if(matchReq.status == 200) {
+                const matches = JSON.parse(matchReq.responseText);
+                for(let i in matches) {
+                    const match = matches[i];
+
+                    document.querySelector('.matches').innerHTML += getMatchBoxHTML(match);
+                }
+            }
+        }
+    }
+
+    matchReq.send();
 
     // City handler
     //On focus

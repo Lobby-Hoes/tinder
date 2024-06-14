@@ -52,6 +52,33 @@ module.exports = function (app) {
         res.send(profile);
     });
 
+    app.get('/api/matches', async (req, res) => {
+        var session = await checkSession(req.cookies.session);
+        var user = await getProfile(session);
+
+        db.getCollection('matches').find({
+            users: user.username
+        }).toArray().then(async (data) => {
+            var matchedUsers = [];
+            for (let i in data) {
+                var match = data[i];
+                var matchedUser = match.users.filter((username) => username !== user.username)[0];
+
+                var matchedUserData = await db.getCollection('users').findOne({username: matchedUser}, {
+                    projection: {
+                        password: 0,
+                        likedProfiles: 0,
+                        dislikedProfiles: 0,
+                        preferences: 0
+                    }
+                });
+                matchedUsers.push(matchedUserData);
+            }
+
+            res.send(matchedUsers);
+        });
+    });
+
     app.get('/api/user', async (req, res) => {
         var session = await checkSession(req.cookies.session);
         var user = await getProfile(session);
