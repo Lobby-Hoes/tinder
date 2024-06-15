@@ -78,6 +78,45 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
             </div>
         </div>
         <div class="field">
+            <label class="label is-skeleton">Socials</label>
+            <div class="control has-icons-left">
+                <input class="input is-skeleton" type="text" placeholder="username" id="instagram">
+                <span class="icon is-small is-left">
+                  <i class="fa-brands fa-instagram"></i>
+                </span>
+            </div>
+            <div class="control has-icons-left mt-1">
+                <input class="input is-skeleton" type="text" placeholder="username" id="discord">
+                <span class="icon is-small is-left">
+                  <i class="fa-brands fa-discord"></i>
+                </span>
+            </div>
+            <div class="control has-icons-left mt-1">
+                <input class="input is-skeleton" type="text" placeholder="username" id="snapchat">
+                <span class="icon is-small is-left">
+                  <i class="fa-brands fa-snapchat"></i>
+                </span>
+            </div>
+            <div class="control has-icons-left mt-1">
+                <input class="input is-skeleton" type="text" placeholder="telefonnummer" id="whatsapp">
+                <span class="icon is-small is-left">
+                  <i class="fa-brands fa-whatsapp"></i>
+                </span>
+            </div>
+            <div class="control has-icons-left mt-1">
+                <input class="input is-skeleton" type="text" placeholder="username" id="facebook">
+                <span class="icon is-small is-left">
+                  <i class="fa-brands fa-facebook"></i>
+                </span>
+            </div>
+            <div class="control has-icons-left mt-1">
+                <input class="input is-skeleton" type="text" placeholder="username" id="tiktok">
+                <span class="icon is-small is-left">
+                  <i class="fa-brands fa-tiktok"></i>
+                </span>
+            </div>
+        </div>
+        <div class="field">
             <label class="label is-italic is-skeleton">Account ID: <span id="id"></span></label>
         </div>
         <div class="field">
@@ -112,7 +151,7 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
         <label class="label is-skeleton">Stadt</label>
         <div class="field is-grouped">
             <div class="control is-expanded">
-                <input class="input is-skeleton" type="text" placeholder="Stadt" id="city">
+                <input class="input is-skeleton" type="text" placeholder="Stadt" id="city" autocomplete="new-password">
                 <div class="box input-autocomplete is-hidden">
                 </div>
             </div>
@@ -128,12 +167,21 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
                 <input class="input is-skeleton" type="text" placeholder="Beruf" id="job">
             </div>
         </div>
-
-
+        <div class="field">
+            <label class="label is-skeleton">Profilbeschreibung</label>
+            <div class="control">
+                <textarea class="textarea is-skeleton" placeholder="Profilbeschreibung" id="description"></textarea>
+            </div>
+        </div>
         <div class="field is-grouped">
             <div class="control">
                 <button class="button is-success is-uppercase is-family-hobbylos is-skeleton"
                         onclick="save(this, 'profile')">Speichern
+                </button>
+            </div>
+            <div class="control">
+                <button class="button is-info is-uppercase is-family-hobbylos is-skeleton"
+                        onclick="showProfile()">Profil anzeigen
                 </button>
             </div>
         </div>

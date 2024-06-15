@@ -64,8 +64,7 @@ function getCardHTML(profile) {
                 </div>
     
                 <div class="content">
-                    Hiiii,
-                    Ich bin der David und das hier ist der Prototyp der Lobbyhoe Tinder App V2.
+                    ${profile.description}
                 </div>
     
                 <h1 class="title is-6 mb-1">Lieblingsfolge</h1>

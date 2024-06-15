@@ -29,6 +29,13 @@ window.onload = function () {
                 document.querySelector('#sexuality').value = data.sexuality;
                 document.querySelector('#distance').setAttribute('distance', data.distance);
                 document.querySelector('#id').innerHTML = data._id;
+                document.querySelector('#description').value = data.description;
+
+                for (let i in data.socials) {
+                    const social = data.socials[i];
+                    document.querySelector(`#${social.name}`).value = social.username
+                    document.querySelector(`#${social.name}`).classList.add('is-primary');
+                }
 
                 document.querySelectorAll('.is-skeleton').forEach(element => {
                     element.classList.remove('is-skeleton');
@@ -42,10 +49,10 @@ window.onload = function () {
     var matchReq = new XMLHttpRequest();
     matchReq.open('GET', '/api/matches', true);
     matchReq.onreadystatechange = function () {
-        if(matchReq.readyState == 4) {
-            if(matchReq.status == 200) {
+        if (matchReq.readyState == 4) {
+            if (matchReq.status == 200) {
                 const matches = JSON.parse(matchReq.responseText);
-                for(let i in matches) {
+                for (let i in matches) {
                     const match = matches[i];
 
                     document.querySelector('.matches').innerHTML += getMatchBoxHTML(match);
@@ -327,13 +334,15 @@ function save(button, tab) {
             var city = document.querySelector('#city');
             var job = document.querySelector('#job');
             var distance = document.querySelector('#distance');
+            var description = document.querySelector('#description');
 
             name.value !== '' ? name.classList.remove('is-danger') : name.classList.add('is-danger');
             birthday.value !== '' ? birthday.classList.remove('is-danger') : birthday.classList.add('is-danger');
             city.value !== '' ? city.classList.remove('is-danger') : city.classList.add('is-danger');
             job.value !== '' ? job.classList.remove('is-danger') : job.classList.add('is-danger');
+            description.value !== '' ? description.classList.remove('is-danger') : description.classList.add('is-danger');
 
-            if (name.value === '' || birthday.value === '' || city.value === '' || job.value === '') {
+            if (name.value === '' || birthday.value === '' || city.value === '' || job.value === '' || description.value === '') {
                 button.classList.remove('is-loading');
                 button.classList.remove('is-warning');
                 return;
@@ -344,6 +353,7 @@ function save(button, tab) {
                 birthday: birthday.value,
                 city: city.value,
                 job: job.value,
+                description: description.value,
                 location: {
                     type: 'Point',
                     coordinates: [parseFloat(city.getAttribute('lon')), parseFloat(city.getAttribute('lat'))]

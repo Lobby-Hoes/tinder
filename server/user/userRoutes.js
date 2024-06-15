@@ -57,50 +57,47 @@ module.exports = function (app) {
         var session = await checkSession(req.cookies.session);
         var user = await getProfile(session);
 
-        if (req.query.id) {
-            if (req.query.relative === 'true') {
-                db.getCollection('users').aggregate([
-                    {
-                        $geoNear: {
-                            near: {
-                                type: 'Point',
-                                coordinates: user.location.coordinates
-                            },
-                            distanceField: 'dist.calculated',
-                            spherical: true,
-                            query: {
-                                _id: new ObjectId(req.query.id)
-                            }
-                        }
-                    },
-                    {
-                        $sample: {size: 1}
-                    },
-                    {
-                        $project: {
-                            password: 0,
-                            likedProfiles: 0,
-                            dislikedProfiles: 0,
-                            preferences: 0,
-                            distance: 0
+        let id = req.query.id !== "undefined" ? req.query.id : user._id;
+        if (req.query.relative === 'true') {
+            db.getCollection('users').aggregate([
+                {
+                    $geoNear: {
+                        near: {
+                            type: 'Point',
+                            coordinates: user.location.coordinates
+                        },
+                        distanceField: 'dist.calculated',
+                        spherical: true,
+                        query: {
+                            _id: new ObjectId(id)
                         }
                     }
-                ]).toArray().then((data) => res.send(data[0]));
-            } else {
-                db.getCollection('users').findOne({_id: new ObjectId(req.query.id)}, {
-                    projection: {
+                },
+                {
+                    $sample: {size: 1}
+                },
+                {
+                    $project: {
                         password: 0,
                         likedProfiles: 0,
                         dislikedProfiles: 0,
                         preferences: 0,
                         distance: 0
                     }
-                }).then((data) => {
-                    res.send(data);
-                });
-            }
+                }
+            ]).toArray().then((data) => res.send(data[0]));
         } else {
-            res.sendStatus(400);
+            db.getCollection('users').findOne({_id: new ObjectId(id)}, {
+                projection: {
+                    password: 0,
+                    likedProfiles: 0,
+                    dislikedProfiles: 0,
+                    preferences: 0,
+                    distance: 0
+                }
+            }).then((data) => {
+                res.send(data);
+            });
         }
     });
 
