@@ -3,6 +3,14 @@
     src: url('/resources/AsketCondensed.otf');
 }
 
+.swal2-html-container .card {
+    text-align: left;
+
+    .media-right {
+        display: none;
+    }
+}
+
 .is-family-hobbylos {
     font-family: Hobbylos, sans-serif;
 }

@@ -9,7 +9,7 @@
 
 .no-scale {
     object-fit: cover;
-    object-position: 100% 50%;
+    object-position: 65% 50%;
 }
 
 .is-family-hobbylos {
@@ -67,6 +67,17 @@ html {
     width: 4rem;
     border-radius: 100%;
     border: 3px solid white;
+}
+
+
+.swal2-container:has(.swal2-image) {
+
+    z-index: unset !important;
+
+    .swal2-image {
+        object-fit: cover;
+        object-position: 100% 50%;
+    }
 }
 
 @media screen and (max-width: 959px) {

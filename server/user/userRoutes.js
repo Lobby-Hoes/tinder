@@ -1,6 +1,7 @@
 const db = require('../db/mongo');
 const {checkSession, getProfile} = require('../auth/authUtils');
 const path = require("path");
+const {ObjectId} = require("mongodb");
 const __static = path.join(__dirname, '..', '..', 'static');
 
 module.exports = function (app) {
@@ -50,6 +51,57 @@ module.exports = function (app) {
         ]).toArray();
 
         res.send(profile);
+    });
+
+    app.get('/api/profile', async (req, res) => {
+        var session = await checkSession(req.cookies.session);
+        var user = await getProfile(session);
+
+        if (req.query.id) {
+            if (req.query.relative === 'true') {
+                db.getCollection('users').aggregate([
+                    {
+                        $geoNear: {
+                            near: {
+                                type: 'Point',
+                                coordinates: user.location.coordinates
+                            },
+                            distanceField: 'dist.calculated',
+                            spherical: true,
+                            query: {
+                                _id: new ObjectId(req.query.id)
+                            }
+                        }
+                    },
+                    {
+                        $sample: {size: 1}
+                    },
+                    {
+                        $project: {
+                            password: 0,
+                            likedProfiles: 0,
+                            dislikedProfiles: 0,
+                            preferences: 0,
+                            distance: 0
+                        }
+                    }
+                ]).toArray().then((data) => res.send(data[0]));
+            } else {
+                db.getCollection('users').findOne({_id: new ObjectId(req.query.id)}, {
+                    projection: {
+                        password: 0,
+                        likedProfiles: 0,
+                        dislikedProfiles: 0,
+                        preferences: 0,
+                        distance: 0
+                    }
+                }).then((data) => {
+                    res.send(data);
+                });
+            }
+        } else {
+            res.sendStatus(400);
+        }
     });
 
     app.get('/api/matches', async (req, res) => {

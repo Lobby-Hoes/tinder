@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Lobby-Hoes/tinder#readme",
   "dependencies": {
+    "confetti-js": "^0.0.18",
     "cookie-parser": "^1.4.6",
     "express": "^4.19.2",
     "mongodb": "^6.7.0"

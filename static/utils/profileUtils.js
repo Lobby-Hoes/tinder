@@ -121,7 +121,7 @@ function getMatchBoxHTML(profile) {
                           </span>
                           <span>${profile.job}</span>
                         </span>
-                    <button onclick='showProfile("${JSON.stringify(profile)}")' class="button is-success is-hobbylos is-uppercase is-family-hobbylos is-fullwidth is-rounded mt-3">
+                    <button onclick="showProfile('${profile._id}')" class="button is-success is-hobbylos is-uppercase is-family-hobbylos is-fullwidth is-rounded mt-3">
                         Profil ansehen
                     </button>
                 </div>
@@ -156,10 +156,20 @@ function getMatchBoxHTML(profile) {
 }
 
 function showProfile(profile) {
-    console.log(profile);
-    Swal.fire({
-       html: getMatchBoxHTML(profile),
-       title: "Profilansicht",
-       width: 600
-    });
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/profile?id=' + profile + "&relative=true", true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            profile = JSON.parse(xhr.responseText);
+            Swal.fire({
+                html: getCardHTML(profile),
+                title: "Profilansicht",
+                width: 600
+            });
+        }
+    }
+
+    xhr.send();
+
 }

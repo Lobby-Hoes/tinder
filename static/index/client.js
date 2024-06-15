@@ -165,8 +165,51 @@ class Carousel {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var match = JSON.parse(xhr.responseText.toLowerCase());
                 if(match) {
-                    console.log("It's a match!");
-                    console.log(window.confetti);
+                    Swal.fire({
+                        title: "It's a match!",
+                        imageUrl: "https://i.pinimg.com/originals/3f/c3/e0/3fc3e09dafd7ae54c542f6696f157d22.gif",
+                        imageAlt: "Julien Bam mit einer Rose im Mund, dreht sich zu einem hin",
+                        imageHeight: 400,
+                        confirmButtonText: 'Zu deinen Matches!'
+                    });
+
+                    const confetti = window.confetti;
+
+                    var count = 300;
+                    var defaults = {
+                        origin: { y: 0.5 }
+                    };
+
+                    function fire(particleRatio, opts) {
+                        confetti({
+                            ...defaults,
+                            ...opts,
+                            particleCount: Math.floor(count * particleRatio)
+                        });
+                    }
+
+                    fire(0.25, {
+                        spread: 60,
+                        startVelocity: 55,
+                    });
+                    fire(0.2, {
+                        spread: 60,
+                    });
+                    fire(0.35, {
+                        spread: 100,
+                        decay: 0.91,
+                        scalar: 0.8
+                    });
+                    fire(0.1, {
+                        spread: 120,
+                        startVelocity: 25,
+                        decay: 0.92,
+                        scalar: 1.2
+                    });
+                    fire(0.1, {
+                        spread: 120,
+                        startVelocity: 45,
+                    });
                 }
                 nextCard();
             }
@@ -243,8 +286,8 @@ function getNoMoreProfilesCardHTML() {
         <div class="card-image">
             <figure class="image is-4by3">
                 <img
-                        src="https://i.pinimg.com/originals/3f/c3/e0/3fc3e09dafd7ae54c542f6696f157d22.gif"
-                        alt="Julien Bam Gif mit einer Rose im Mund"
+                        src="https://64.media.tumblr.com/ee071d98db96475427f316823711b9df/2f0d027b23ed83b7-41/s1280x1920/dc962718392bfc3c1416b03bb7333efe298e1d3a.gifv"
+                        alt="Julien Bam im Raumschiffanzug mit fragendem Gesichtsausdruck"
                         draggable="false"
                         class="no-scale"
                 />
