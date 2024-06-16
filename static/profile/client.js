@@ -376,6 +376,45 @@ function save(button, tab) {
             updateJson = {
                 username: username.value
             }
+
+            updateJson.socials = [];
+            const socials = ['instagram', 'discord', 'snapchat', 'whatsapp', 'facebook', 'tiktok'];
+
+            for (let i in socials) {
+                const social = socials[i];
+                const element = document.querySelector(`#${social}`);
+                if (element.value !== '') {
+                    let username = element.value.replace('@', '');
+                    let url;
+                    switch (social) {
+                        case 'instagram':
+                            url = `https://www.instagram.com/${username}/`;
+                            break;
+                        case 'discord':
+                            url = `trigger;${username}`;
+                            break;
+                        case 'snapchat':
+                            url = `trigger;${username}`;
+                            break;
+                        case 'whatsapp':
+                            username.replace(/^0/gm, '+49');
+                            url = `https://wa.me/${username}`;
+                            break;
+                        case 'facebook':
+                            url = `https://www.facebook.com/${username}/`;
+                            break;
+                        case 'tiktok':
+                            url = `https://www.tiktok.com/@${username}`;
+                            break;
+                    }
+
+                    updateJson.socials.push({
+                        name: social,
+                        username: username,
+                        url: url
+                    })
+                }
+            }
             break;
 
         case "preference":

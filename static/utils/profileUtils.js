@@ -82,7 +82,7 @@ function getMatchBoxHTML(profile) {
 
     console.log(profile);
 
-    return `
+    const htmlStr = `
     <hr>
     <div class="box">
             <div class="columns">
@@ -126,32 +126,29 @@ function getMatchBoxHTML(profile) {
                 </div>
 
                 <div class="column">
-                    <div class="buttons is-centered">
-                        <button class="p-3 button is-large is-ghost">
-                            <span class="icon is-large">
-                                <i class="fa-brands fa-instagram fa-lg"></i>
-                            </span>
-                        </button>
-                        <button class="p-3 button is-large is-ghost">
-                            <span class="icon is-large">
-                                <i class="fa-brands fa-discord fa-lg"></i>
-                            </span>
-                        </button>
-                        <button class="p-3 button is-large is-ghost">
-                            <span class="icon is-large">
-                                <i class="fa-brands fa-snapchat fa-lg"></i>
-                            </span>
-                        </button>
-                        <button class="p-3 button is-large is-ghost">
-                            <span class="icon is-large">
-                                <i class="fa-brands fa-whatsapp fa-lg"></i>
-                            </span>
-                        </button>
+                    <div class="buttons is-centered socials">
                     </div>
                 </div>
             </div>
         </div>
     `;
+
+    var doc = new DOMParser().parseFromString(htmlStr, 'text/html');
+
+    for(let i in profile.socials) {
+        const social = profile.socials[i];
+        doc.querySelector('.socials').innerHTML += `
+            <button class="p-3 button is-large is-ghost" onclick="window.open('${social.url}', '_blank')">
+                <span class="icon is-large">
+                    <i class="fa-brands fa-${social.name} fa-lg"></i>
+                </span>
+            </button>
+        `;
+    }
+
+    console.log(doc);
+
+    return doc.body.innerHTML;
 }
 
 function showProfile(profile) {
