@@ -475,3 +475,39 @@ function save(button, tab) {
     }
     xhr.send(JSON.stringify(updateJson));
 }
+
+function changePassword() {
+    Swal.fire({
+        title: 'Passwort ändern',
+        confirmButtonText: 'Passwort ändern',
+        showCancelButton: true,
+        cancelButtonText: 'Abbrechen',
+        showCloseButton: true,
+        html: `
+            <div class="field">
+              <label class="label">Aktuelles Passwort</label>
+              <div class="control">
+                <input id="old-password" class="input" type="text" placeholder="Passwort" autocomplete="password">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Neues Passwort</label>
+              <div class="control">
+                <input id="new-password" class="input" type="text" placeholder="Passwort" autocomplete="new-password">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Neues Passwort wiederholen</label>
+              <div class="control">
+                <input id="new-password-repeat" class="input" type="text" placeholder="Passwort" autocomplete="new-password">
+              </div>
+            </div>
+        `
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const oldPassword = document.querySelector('#old-password');
+            const newPassword = document.querySelector('#new-password');
+            const newPasswordRepeat = document.querySelector('#new-password-repeat');
+        }
+    });
+}
