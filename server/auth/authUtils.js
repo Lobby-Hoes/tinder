@@ -1,8 +1,11 @@
 const {createHash} = require("crypto");
 const db = require("../db/mongo");
 module.exports = {
+    getSalt() {
+        return process.env.SALT;
+    },
     createSession(user) {
-        const token = createHash('sha256').update(user.username + Date.now()).digest('hex')
+        const token = createHash('sha256').update(user.username + Date.now() + process.env.SALT).digest('hex')
 
         db.getCollection('sessions').insertOne({
             user: user._id,
@@ -24,9 +27,5 @@ module.exports = {
 
     async getProfile(session) {
         return await db.getCollection('users').findOne({_id: session});
-    },
-
-    getSalt() {
-        return process.env.SALT;
     }
 }

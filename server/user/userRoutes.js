@@ -1,5 +1,6 @@
 const db = require('../db/mongo');
-const {checkSession, getProfile} = require('../auth/authUtils');
+const {checkSession, getProfile, getSalt} = require('../auth/authUtils');
+const {createHash} = require("crypto");
 const path = require("path");
 const {ObjectId} = require("mongodb");
 const __static = path.join(__dirname, '..', '..', 'static');
@@ -200,6 +201,32 @@ module.exports = function (app) {
         }).then(() => {
             res.sendStatus(200);
         });
+    });
+
+    app.post('/api/user/password', async (req, res) => {
+        var session = await checkSession(req.cookies.session);
+        var user = await getProfile(session);
+
+        const oldPassword = req.body.oldPassword;
+        const newPassword = req.body.newPassword;
+
+        const currentPassword = user.password;
+        const hashedOldPassword = createHash('sha256').update(getSalt() + oldPassword).digest('hex');
+
+        if (currentPassword === hashedOldPassword) {
+            const hashedNewPassword = createHash('sha256').update(getSalt() + newPassword).digest('hex');
+            db.getCollection('users').updateOne({_id: user._id}, {
+                $set: {
+                    password: hashedNewPassword
+                }
+            }).then(() => {
+                res.sendStatus(200);
+            });
+        } else {
+            res.sendStatus(403);
+        }
+
+
     });
 
     //Profile routes

@@ -508,6 +508,48 @@ function changePassword() {
             const oldPassword = document.querySelector('#old-password');
             const newPassword = document.querySelector('#new-password');
             const newPasswordRepeat = document.querySelector('#new-password-repeat');
+
+            oldPassword.value !== '' ? oldPassword.classList.remove('is-danger') : oldPassword.classList.add('is-danger');
+            newPassword.value !== '' ? newPassword.classList.remove('is-danger') : newPassword.classList.add('is-danger');
+            newPasswordRepeat.value !== '' ? newPasswordRepeat.classList.remove('is-danger') : newPasswordRepeat.classList.add('is-danger');
+
+            if (oldPassword.value !== '' && newPassword.value !== '' && newPasswordRepeat.value !== '') {
+                if (newPassword.value === newPasswordRepeat.value) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/api/user/password', true);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                Swal.fire({
+                                    title: "Password geändert!",
+                                    icon: "success"
+                                });
+                            } else if (xhr.status === 403) {
+                                Swal.fire({
+                                    title: "Aktuelles Passwort inkorrekt",
+                                    icon: "error",
+                                    showCancelButton: true,
+                                    cancelButtonText: "Abbrechen",
+                                    showConfirmButton: true,
+                                    confirmButtonText: "Erneut probieren"
+                                }).then(result => {
+                                    if(result.isCofirmed) {
+                                        changePassword();
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    xhr.send({
+                        "oldPassword": oldPassword,
+                        "newPassword": newPassword
+                    });
+                } else {
+
+                }
+            } else {
+
+            }
         }
     });
 }
