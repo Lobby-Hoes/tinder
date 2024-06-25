@@ -274,9 +274,7 @@ function showMap() {
             if (xhr.status === 200) {
                 var data = JSON.parse(xhr.responseText);
                 for (country of data.features) {
-                    console.log(country);
                     if (country.properties.ISO_A2 === 'DE' || country.properties.ISO_A2 === 'AT' || country.properties.ISO_A2 === 'CH' || country.properties.ISO_A2 === 'LI') {
-                        console.log("Added");
                         L.geoJSON(country, {
                             style: {
                                 fillColor: 'rgb(76, 201, 255)',
@@ -517,6 +515,7 @@ function changePassword() {
                 if (newPassword.value === newPasswordRepeat.value) {
                     var xhr = new XMLHttpRequest();
                     xhr.open('POST', '/api/user/password', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState === 4) {
                             if (xhr.status === 200) {
@@ -532,18 +531,18 @@ function changePassword() {
                                     cancelButtonText: "Abbrechen",
                                     showConfirmButton: true,
                                     confirmButtonText: "Erneut probieren"
-                                }).then(result => {
-                                    if(result.isCofirmed) {
+                                }).then((repeat) => {
+                                    if(repeat.isConfirmed) {
                                         changePassword();
                                     }
                                 });
                             }
                         }
                     }
-                    xhr.send({
-                        "oldPassword": oldPassword,
-                        "newPassword": newPassword
-                    });
+                    xhr.send(JSON.stringify({
+                        "oldPassword": oldPassword.value,
+                        "newPassword": newPassword.value
+                    }));
                 } else {
 
                 }

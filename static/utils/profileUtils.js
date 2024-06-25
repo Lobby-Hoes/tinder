@@ -12,15 +12,39 @@ function getCardHTML(profile) {
 
     return `
         <div class="card">
-            <div class="card-image">
-                <figure class="image is-4by3">
-                    <img
-                            src="https://bulma.io/assets/images/placeholders/1280x960.png"
-                            alt="Placeholder image"
-                            draggable="false"
-                    />
-                </figure>
-            </div>
+            <section class="splide" aria-label="Basic Structure Example">
+              <div class="splide__track">
+                <ul class="splide__list">
+                  <li class="splide__slide">
+                    <figure class="image is-4by3">
+                        <img class="profile-image"
+                                src="/resources/image.jpg"
+                                alt="Placeholder image"
+                                draggable="false"
+                        />
+                    </figure>
+                  </li>
+                  <li class="splide__slide">
+                  <figure class="image is-4by3">
+                        <img class="profile-image"
+                                src="/resources/boyyy.jpg"
+                                alt="Placeholder image"
+                                draggable="false"
+                        />
+                    </figure>
+                  </li>
+                  <li class="splide__slide">
+                  <figure class="image is-4by3">
+                        <img class="profile-image"
+                                src="/resources/ruru.jpg"
+                                alt="Placeholder image"
+                                draggable="false"
+                        />
+                    </figure>
+                  </li>
+                </ul>
+              </div>
+            </section>
             <div class="card-content pb-0">
                 <div class="media">
                     <div class="media-content">
@@ -79,8 +103,6 @@ function getMatchBoxHTML(profile) {
     var ageDifMs = Date.now() - new Date(profile.birthday);
     var ageDate = new Date(ageDifMs); // miliseconds from epoch
     var years = Math.abs(ageDate.getUTCFullYear() - 1970);
-
-    console.log(profile);
 
     const htmlStr = `
     <hr>
@@ -145,8 +167,6 @@ function getMatchBoxHTML(profile) {
             </button>
         `;
     }
-
-    console.log(doc);
 
     return doc.body.innerHTML;
 }

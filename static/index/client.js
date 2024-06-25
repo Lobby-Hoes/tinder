@@ -241,6 +241,10 @@ window.onload = function () {
             console.log(board);
 
             carousel = new Carousel(board);
+
+            new Splide('.splide', {
+                drag: false
+            }).mount();
         }
     }
 

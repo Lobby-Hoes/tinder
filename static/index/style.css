@@ -69,6 +69,13 @@ html {
     border: 3px solid white;
 }
 
+.profile-image {
+    object-fit: cover;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+}
+
 
 .swal2-container:has(.swal2-image) {
 

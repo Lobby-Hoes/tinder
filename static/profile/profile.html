@@ -56,21 +56,16 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
     <h1 class="title is-3 has-text-centered is-uppercase is-family-hobbylos">Dein Profil</h1>
     <div class="tabs is-boxed">
         <ul>
-            <li class="tab-matches is-active"><a onclick="switchTab('matches')">Matches</a></li>
-            <li class="tab-account-settings"><a onclick="switchTab('account-settings')">Account</a></li>
+            <li class="tab-account-settings is-active"><a onclick="switchTab('account-settings')">Account</a></li>
             <li class="tab-profile-settings"><a onclick="switchTab('profile-settings')">Profil</a></li>
+            <li class="tab-matches"><a onclick="switchTab('matches')">Matches</a></li>
             <li class="tab-preference-settings"><a onclick="switchTab('preference-settings')">Präferenzen</a></li>
             <li class="tab-stats-settings"><a onclick="switchTab('stats-settings')">Statistiken</a></li>
         </ul>
     </div>
 
-    <!-- Matches -->
-    <div class="tab matches">
-        <h1 class="title has-text-centered is-3 is-uppercase is-family-hobbylos">Matches</h1>
-    </div>
-
     <!-- Account Settings -->
-    <div class="tab account-settings is-hidden">
+    <div class="tab account-settings">
         <div class="field">
             <label class="label is-skeleton">Benutzername</label>
             <div class="control">
@@ -185,6 +180,11 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
                 </button>
             </div>
         </div>
+    </div>
+
+    <!-- Matches -->
+    <div class="tab matches is-hidden">
+        <h1 class="title has-text-centered is-3 is-uppercase is-family-hobbylos">Matches</h1>
     </div>
 
     <!-- Preferences Settings -->
