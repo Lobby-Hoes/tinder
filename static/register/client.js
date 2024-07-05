@@ -211,7 +211,10 @@ function setStage(oldStage, newStage) {
             sex: document.querySelector('#sex').value,
             pronouns: document.querySelector('#pronouns').value,
             sexuality: document.querySelector('#sexuality').value,
-            romantic: document.querySelector('#romantic').value,
+            description: '',
+            preferences: [],
+            socials: [],
+            images: []
         }));
 
 

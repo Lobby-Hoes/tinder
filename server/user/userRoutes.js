@@ -4,6 +4,25 @@ const {createHash} = require("crypto");
 const path = require("path");
 const {ObjectId} = require("mongodb");
 const __static = path.join(__dirname, '..', '..', 'static');
+const multer = require('multer');
+const fs = require('fs');
+
+//Create Image Storage
+fs.mkdir(__static + '/uploads/profile-images/', {recursive: true}, (err) => {
+    if (err) throw err;
+});
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, __static + '/uploads/profile-images/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + file.mimetype.replace('image/', '.')) //Appending extension
+    }
+});
+
+const upload = multer({storage: storage});
+
 
 module.exports = function (app) {
     app.get('/api/new-profile', async (req, res) => {
@@ -227,6 +246,28 @@ module.exports = function (app) {
         }
 
 
+    });
+
+    app.post('/api/user/profile-image', upload.single('image'), async (req, res) => {
+        var session = await checkSession(req.cookies.session);
+        var user = await getProfile(session);
+
+        const file = req.file;
+
+        db.getCollection('users').updateOne({_id: user._id}, {
+            $push: {
+                images: file.filename
+            }
+        }).then(() => {
+            res.sendStatus(200);
+        });
+    });
+
+    app.get('/api/user/profile-images', async (req, res) => {
+        var session = await checkSession(req.cookies.session);
+        var user = await getProfile(session);
+
+        res.send(user.images);
     });
 
     //Profile routes

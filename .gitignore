@@ -235,3 +235,5 @@ fabric.properties
 *.pem
 *.cert
 *.key
+
+uploads/

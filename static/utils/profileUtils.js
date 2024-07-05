@@ -30,6 +30,7 @@ function getCardHTML(profile) {
                                 src="/resources/boyyy.jpg"
                                 alt="Placeholder image"
                                 draggable="false"
+                                
                         />
                     </figure>
                   </li>

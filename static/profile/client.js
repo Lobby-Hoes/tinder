@@ -31,10 +31,48 @@ window.onload = function () {
                 document.querySelector('#id').innerHTML = data._id;
                 document.querySelector('#description').value = data.description;
 
+                //Socials
                 for (let i in data.socials) {
                     const social = data.socials[i];
                     document.querySelector(`#${social.name}`).value = social.username
                     document.querySelector(`#${social.name}`).classList.add('is-primary');
+                }
+
+                //Add images
+                for (let i in data.images) {
+                    const image = data.images[i];
+                    const html = `
+                    <div class="column is-3">
+                        <figure class="image is-4by3">
+                            <img class="profile-image"
+                                 src="/uploads/profile-images/${image}"
+                                 alt="Placeholder image"
+                                 draggable="false"
+
+                            />
+                            <div class="image-controls">
+                                <div class="buttons action-buttons">
+                                    <button class="button delete-button is-black ${i > 0 ? '' : 'is-hidden'}">
+                                    <span class="arrow icon is-small">
+                                        <i class="fa-solid fa-arrow-left"></i>
+                                    </span>
+                                    </button>
+                                    <button class="button delete-button is-black ${i < data.images.length - 1 ? '' : 'is-hidden'}">
+                                    <span class="arrow icon is-small ${i < data.images.length - 1 ? '' : 'is-hidden'}">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </span>
+                                    </button>
+                                    <button class="button delete-button is-black">
+                                    <span class="icon is-small">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </figure>
+                    </div>
+                    `;
+                    document.querySelector('.profile-images').innerHTML += html;
                 }
 
                 document.querySelectorAll('.is-skeleton').forEach(element => {
@@ -300,6 +338,66 @@ function showMap() {
     map.fitBounds(circle.getBounds());
 }
 
+function uploadPicture() {
+    const fileInput = document.querySelector('.file-input');
+    console.log(fileInput.files[0]);
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        let cropper;
+        Swal.fire({
+            title: 'Bild hochladen',
+            allowOutsideClick: false,
+            showCancelButton: true,
+            html: `
+            <div>
+                <img id="image" src="${e.target.result}">
+            </div>`,
+            width: 600
+        }).then((result) => {
+            if (result.isConfirmed) {
+                cropper.getCroppedCanvas().toBlob((blob) => {
+                    const formData = new FormData();
+                    formData.append('image', blob);
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/api/user/profile-image', true);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                Swal.fire({
+                                    toast: true,
+                                    position: 'bottom',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    icon: 'success',
+                                    title: 'Bild erfolgreich hochgeladen'
+                                });
+                            } else {
+                                Swal.fire({
+                                    toast: true,
+                                    position: 'bottom',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    icon: 'error',
+                                    title: 'Fehler beim hochladen'
+                                });
+                            }
+                        }
+                    }
+                    xhr.send(formData);
+                });
+            }
+        });
+
+        cropper = new Cropper(document.querySelector('#image'), {
+            aspectRatio: 4 / 3,
+            viewMode: 2,
+            dragMode: 'move'
+        });
+    }
+    reader.readAsDataURL(fileInput.files[0]);
+}
+
 function setRadius(radius) {
     if (radius < 1) radius = 1;
     if (radius > 250) radius = 250;
@@ -380,28 +478,44 @@ function save(button, tab) {
 
             for (let i in socials) {
                 const social = socials[i];
-                const element = document.querySelector(`#${social}`);
+                const element = document.querySelector(`
+    #$
+    {
+        social
+    }
+    `);
                 if (element.value !== '') {
                     let username = element.value.replace('@', '');
                     let url;
                     switch (social) {
                         case 'instagram':
-                            url = `https://www.instagram.com/${username}/`;
+                            url = `
+    https://www.instagram.com/${username}/`;
                             break;
-                        case 'discord':
+                        case
+                        'discord'
+                        :
                             url = `trigger;${username}`;
                             break;
-                        case 'snapchat':
+                        case
+                        'snapchat'
+                        :
                             url = `trigger;${username}`;
                             break;
-                        case 'whatsapp':
+                        case
+                        'whatsapp'
+                        :
                             username.replace(/^0/gm, '+49');
                             url = `https://wa.me/${username}`;
                             break;
-                        case 'facebook':
+                        case
+                        'facebook'
+                        :
                             url = `https://www.facebook.com/${username}/`;
                             break;
-                        case 'tiktok':
+                        case
+                        'tiktok'
+                        :
                             url = `https://www.tiktok.com/@${username}`;
                             break;
                     }
@@ -415,7 +529,9 @@ function save(button, tab) {
             }
             break;
 
-        case "preference":
+        case
+        "preference"
+        :
             var pronouns = document.querySelector('#pronouns');
 
             if (pronouns.value === '') {
@@ -532,7 +648,7 @@ function changePassword() {
                                     showConfirmButton: true,
                                     confirmButtonText: "Erneut probieren"
                                 }).then((repeat) => {
-                                    if(repeat.isConfirmed) {
+                                    if (repeat.isConfirmed) {
                                         changePassword();
                                     }
                                 });

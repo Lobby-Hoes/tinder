@@ -11,35 +11,25 @@
     <!-- Imports -->
     <link rel="stylesheet" href="/libraries/bulma.min.css">
     <link rel="stylesheet" href="/profile/style.css">
+
+    <!-- Libraries -->
     <script defer src="https://use.fontawesome.com/releases/v6.5.2/js/all.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-    <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"
-    />
+    <script src="/modules/js-cookie/dist/js.cookie.min.js"></script>
+    <link rel="stylesheet" href="/modules/flag-icons/css/flag-icons.min.css"/>
 
-    <script src="
-https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js
-"></script>
-    <link href="
-https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css
-" rel="stylesheet">
+    <script src="/modules/leaflet/dist/leaflet.js"></script>
+    <link href="/modules/leaflet/dist/leaflet.css" rel="stylesheet">
 
-    <script src="
-https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js
-"></script>
-    <link href="
-https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css
-" rel="stylesheet">
+    <script src="/modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <link href="/modules/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
 
-    <script src="
-https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/js/bulma-slider.min.js
-"></script>
-    <link href="
-https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
-" rel="stylesheet">
+    <script src="/modules/bulma-slider/dist/js/bulma-slider.min.js"></script>
+    <link href="/modules/bulma-slider/dist/css/bulma-slider.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-switch@2.0.4/dist/css/bulma-switch.min.css">
+    <link rel="stylesheet" href="/modules/bulma-switch/dist/css/bulma-switch.min.css">
+
+    <link rel="stylesheet" href="/modules/cropperjs/dist/cropper.min.css">
+    <script src="/modules/cropperjs/dist/cropper.min.js"></script>
 
     <script defer src="/profile/client.js"></script>
     <script defer src="/utils/matchingUtils.js"></script>
@@ -124,7 +114,9 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
                 </button>
             </div>
             <div class="control">
-                <button class="button is-warning is-uppercase is-family-hobbylos is-skeleton" onclick="changePassword()">Passwort ändern</button>
+                <button class="button is-warning is-uppercase is-family-hobbylos is-skeleton"
+                        onclick="changePassword()">Passwort ändern
+                </button>
             </div>
         </div>
     </div>
@@ -166,6 +158,24 @@ https://cdn.jsdelivr.net/npm/bulma-slider@2.0.5/dist/css/bulma-slider.min.css
             <label class="label is-skeleton">Profilbeschreibung</label>
             <div class="control">
                 <textarea class="textarea is-skeleton" placeholder="Profilbeschreibung" id="description"></textarea>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label is-skeleton">Profilbilder</label>
+            <div class="control">
+                <div class="columns is-centered is-multiline profile-images">
+                </div>
+                <div class="file is-boxed is-centered">
+                    <label class="file-label">
+                        <input class="file-input images" type="file" accept="image/*" onchange="uploadPicture()"/>
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">Bilder auswählen</span>
+                        </span>
+                    </label>
+                </div>
             </div>
         </div>
         <div class="field is-grouped">

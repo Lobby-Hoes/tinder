@@ -12,6 +12,7 @@ const PRODUCTION = process.env.NODE_ENV === 'production';
 const SALT = process.env.SALT;
 
 app.use(express.static('static'));
+app.use('/modules', express.static('node_modules'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());

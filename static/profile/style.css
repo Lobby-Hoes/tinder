@@ -19,6 +19,39 @@
     background: rgb(76, 201, 255) !important;
 }
 
+.profile-image {
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.image-controls {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    justify-content: end;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+}
+
+.image {
+    max-width: 20rem;
+    margin: auto;
+}
+
+.delete-button {
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin-right: 0.5rem;
+
+}
+
+.action-buttons {
+    flex-wrap: nowrap;
+}
+
 .is-hobbylos {
     background-color: rgb(76, 201, 255);
 }
@@ -92,5 +125,9 @@ html {
         border: 3px solid white;
         float: right;
         top: 0;
+    }
+
+    .arrow {
+        transform: rotate(90deg);
     }
 }
