@@ -1,5 +1,6 @@
 var map;
 var circle;
+let images = [];
 
 window.onload = function () {
 
@@ -38,42 +39,10 @@ window.onload = function () {
                     document.querySelector(`#${social.name}`).classList.add('is-primary');
                 }
 
-                //Add images
-                for (let i in data.images) {
-                    const image = data.images[i];
-                    const html = `
-                    <div class="column is-3">
-                        <figure class="image is-4by3">
-                            <img class="profile-image"
-                                 src="/uploads/profile-images/${image}"
-                                 alt="Placeholder image"
-                                 draggable="false"
-
-                            />
-                            <div class="image-controls">
-                                <div class="buttons action-buttons">
-                                    <button class="button delete-button is-black ${i > 0 ? '' : 'is-hidden'}">
-                                    <span class="arrow icon is-small">
-                                        <i class="fa-solid fa-arrow-left"></i>
-                                    </span>
-                                    </button>
-                                    <button class="button delete-button is-black ${i < data.images.length - 1 ? '' : 'is-hidden'}">
-                                    <span class="arrow icon is-small ${i < data.images.length - 1 ? '' : 'is-hidden'}">
-                                        <i class="fa-solid fa-arrow-right"></i>
-                                    </span>
-                                    </button>
-                                    <button class="button delete-button is-black">
-                                    <span class="icon is-small">
-                                        <i class="fas fa-trash"></i>
-                                    </span>
-                                    </button>
-                                </div>
-                            </div>
-                        </figure>
-                    </div>
-                    `;
-                    document.querySelector('.profile-images').innerHTML += html;
+                for(let i in data.images) {
+                    images.push('/uploads/profile-images/' + data.images[i]);
                 }
+                renderImages();
 
                 document.querySelectorAll('.is-skeleton').forEach(element => {
                     element.classList.remove('is-skeleton');
@@ -87,8 +56,8 @@ window.onload = function () {
     var matchReq = new XMLHttpRequest();
     matchReq.open('GET', '/api/matches', true);
     matchReq.onreadystatechange = function () {
-        if (matchReq.readyState == 4) {
-            if (matchReq.status == 200) {
+        if (matchReq.readyState === 4) {
+            if (matchReq.status === 200) {
                 const matches = JSON.parse(matchReq.responseText);
                 for (let i in matches) {
                     const match = matches[i];
@@ -142,6 +111,45 @@ window.onload = function () {
             xhr.send();
         }, 500);
     });
+}
+
+function renderImages() {
+    document.querySelector('.profile-images').innerHTML = '';
+    for (let i in images) {
+        const image = images[i];
+        const html = `
+                    <div class="column is-3">
+                        <figure class="image is-4by3">
+                            <img class="profile-image"
+                                 src="${image}"
+                                 alt="Placeholder image"
+                                 draggable="false"
+
+                            />
+                            <div class="image-controls">
+                                <div class="buttons action-buttons">
+                                    <button class="button delete-button is-black ${i > 0 ? '' : 'is-hidden'}">
+                                    <span class="arrow icon is-small">
+                                        <i class="fa-solid fa-arrow-left"></i>
+                                    </span>
+                                    </button>
+                                    <button class="button delete-button is-black ${i < images.length - 1 ? '' : 'is-hidden'}">
+                                    <span class="arrow icon is-small ${i < images.length - 1 ? '' : 'is-hidden'}">
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </span>
+                                    </button>
+                                    <button class="button delete-button is-black" onclick="removeImage('${image}')">
+                                        <span class="icon is-small">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </figure>
+                    </div>
+                    `;
+        document.querySelector('.profile-images').innerHTML += html;
+    }
 }
 
 function selectCity(cityname, lon, lat) {
@@ -338,7 +346,12 @@ function showMap() {
     map.fitBounds(circle.getBounds());
 }
 
-function uploadPicture() {
+function removeImage(img) {
+    images.splice(images.indexOf(img, 1));
+    renderImages();
+}
+
+function addImage() {
     const fileInput = document.querySelector('.file-input');
     console.log(fileInput.files[0]);
 
@@ -357,6 +370,15 @@ function uploadPicture() {
         }).then((result) => {
             if (result.isConfirmed) {
                 cropper.getCroppedCanvas().toBlob((blob) => {
+
+                    var reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = function() {
+                        var base64data = reader.result;
+                        images.push(base64data);
+                        renderImages();
+                    }
+                    /*
                     const formData = new FormData();
                     formData.append('image', blob);
                     var xhr = new XMLHttpRequest();
@@ -385,6 +407,7 @@ function uploadPicture() {
                         }
                     }
                     xhr.send(formData);
+                    */
                 });
             }
         });
@@ -425,12 +448,12 @@ function save(button, tab) {
     let updateJson = {};
     switch (tab) {
         case 'profile':
-            var name = document.querySelector('#name');
-            var birthday = document.querySelector('#birthday');
-            var city = document.querySelector('#city');
-            var job = document.querySelector('#job');
-            var distance = document.querySelector('#distance');
-            var description = document.querySelector('#description');
+            const name = document.querySelector('#name');
+            const birthday = document.querySelector('#birthday');
+            const city = document.querySelector('#city');
+            const job = document.querySelector('#job');
+            const distance = document.querySelector('#distance');
+            const description = document.querySelector('#description');
 
             name.value !== '' ? name.classList.remove('is-danger') : name.classList.add('is-danger');
             birthday.value !== '' ? birthday.classList.remove('is-danger') : birthday.classList.add('is-danger');
@@ -443,6 +466,29 @@ function save(button, tab) {
                 button.classList.remove('is-warning');
                 return;
             }
+
+            //Check for new images
+            let formData = new FormData();
+            let j = 0;
+            for(let i in images) {
+                const img = images[i];
+                console.log(img);
+                //Check if new image in base64
+                if(img.startsWith('data:image/png;base64')) {
+                    console.log("Found");
+                    formData.append('image', img);
+                    j++;
+                }
+            }
+            if(j >= 1) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/api/user/profile-image', true);
+                xhr.onreadystatechange = function () {
+
+                }
+                xhr.send();
+            }
+
 
             updateJson = {
                 name: name.value,
