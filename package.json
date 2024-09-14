@@ -24,7 +24,7 @@
     "canvas-confetti": "^1.9.3",
     "cookie-parser": "^1.4.6",
     "cropperjs": "^1.6.2",
-    "express": "^4.19.2",
+    "express": "^4.20.0",
     "flag-icons": "^7.2.3",
     "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
