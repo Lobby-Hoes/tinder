@@ -62,7 +62,7 @@ window.onload = function () {
                                         <i class="fa-solid fa-arrow-right"></i>
                                     </span>
                                     </button>
-                                    <button class="button delete-button is-black">
+                                    <button class="button delete-button is-black" onclick="deleteImage('${image}')">
                                     <span class="icon is-small">
                                         <i class="fas fa-trash"></i>
                                     </span>
@@ -398,6 +398,10 @@ function uploadPicture() {
     reader.readAsDataURL(fileInput.files[0]);
 }
 
+function deletePicture() {
+    
+}
+
 function setRadius(radius) {
     if (radius < 1) radius = 1;
     if (radius > 250) radius = 250;
@@ -478,12 +482,7 @@ function save(button, tab) {
 
             for (let i in socials) {
                 const social = socials[i];
-                const element = document.querySelector(`
-    #$
-    {
-        social
-    }
-    `);
+                const element = document.querySelector(`#${social}`);
                 if (element.value !== '') {
                     let username = element.value.replace('@', '');
                     let url;

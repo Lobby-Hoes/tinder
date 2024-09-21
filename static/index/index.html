@@ -18,11 +18,12 @@
     <link href="/modules/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
 
     <script src="/modules/@splidejs/splide/dist/js/splide.min.js"></script>
-    <link href="/modules/@splidejs/splide/dist/css/splide.min.css" rel="stylesheet">>
+    <link href="/modules/@splidejs/splide/dist/css/splide.min.css" rel="stylesheet">
 
 
     <script defer src="/index/client.js"></script>
     <script defer src="/utils/profileUtils.js"></script>
+    <script defer src="/utils/pushService.js"></script>
 </head>
 <body>
 
@@ -36,7 +37,9 @@
         <div class="loader is-loading"></div>
     </div>
 
-    <script src="/libraries/hammer.min.js"></script>
+    <button class="button" onclick="subscribe();">Subscribe</button>
 
+    <script src="/libraries/hammer.min.js"></script>
+</div>
 </body>
 </html>

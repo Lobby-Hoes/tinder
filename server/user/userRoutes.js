@@ -6,6 +6,7 @@ const {ObjectId} = require("mongodb");
 const __static = path.join(__dirname, '..', '..', 'static');
 const multer = require('multer');
 const fs = require('fs');
+const webpush = require('web-push');
 
 //Create Image Storage
 fs.mkdir(__static + '/uploads/profile-images/', {recursive: true}, (err) => {
@@ -183,6 +184,19 @@ module.exports = function (app) {
                     date: new Date(),
                     seen: []
                 });
+
+                //Send out notification
+                db.getCollection('notificationKeys').findOne({user: data._id}).then((data) => {
+                    if (data) {
+                        webpush.sendNotification(data, JSON.stringify({
+                            title: `It's a match!`,
+                            body: 'Du hast ein neues Match mit ' + user.name,
+                            image: req.get('host') + '/uploads/profile-images/' + user.images[0],
+                            badge: 'https://www.iconpacks.net/icons/2/free-heart-icon-3510-thumb.png',
+                            icon: 'https://i.imgur.com/JCn1W7J.png',
+                        }));
+                    }
+                });
             }
         });
 
@@ -260,6 +274,24 @@ module.exports = function (app) {
             }
         }).then(() => {
             res.sendStatus(200);
+        });
+    });
+
+    app.delete('/api/user/profile-image', async (req, res) => {
+        var session = await checkSession(req.cookies.session);
+        var user = await getProfile(session);
+
+        const image = req.query.image;
+
+        db.getCollection('users').updateOne({_id: user._id}, {
+            $pull: {
+                images: image
+            }
+        }).then(() => {
+            fs.unlink(__static + '/uploads/profile-images/' + image, (err) => {
+                if (err) throw err;
+                res.sendStatus(200);
+            });
         });
     });
 

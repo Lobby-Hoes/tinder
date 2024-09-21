@@ -223,6 +223,7 @@ var board = document.querySelector('#board');
 var carousel = new Carousel(board);
 
 window.onload = function () {
+
     //Initial load
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/new-profile?size=5', true);
