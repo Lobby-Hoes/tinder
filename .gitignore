@@ -237,3 +237,5 @@ fabric.properties
 *.key
 
 uploads/
+
+pushkeys.txt

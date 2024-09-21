@@ -19,6 +19,7 @@ app.use(cookieParser());
 
 require('./server/auth/authRoutes')(app);
 require('./server/user/userRoutes')(app);
+require('./server/notifications/notificationRoutes')(app);
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/static/index/index.html');
