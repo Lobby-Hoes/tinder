@@ -262,19 +262,13 @@ module.exports = function (app) {
 
     });
 
-    app.post('/api/user/profile-image', upload.single('image'), async (req, res) => {
+    app.post('/api/user/profile-image', upload.array('image'), async (req, res) => {
         var session = await checkSession(req.cookies.session);
         var user = await getProfile(session);
 
-        const file = req.file;
+        const files = req.files;
 
-        db.getCollection('users').updateOne({_id: user._id}, {
-            $push: {
-                images: file.filename
-            }
-        }).then(() => {
-            res.sendStatus(200);
-        });
+        res.sendStatus(200);
     });
 
     app.delete('/api/user/profile-image', async (req, res) => {
