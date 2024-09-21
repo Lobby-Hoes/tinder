@@ -490,8 +490,9 @@ function save(button, tab) {
                 xhr.onreadystatechange = function () {
 
                 }
-                xhr.send();
+                xhr.send(formData);
             }
+
 
 
             updateJson = {
